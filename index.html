@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RentHost — Where Property Owners Meet Professional Hosts</title>
+<meta name="description" content="A global marketplace connecting property owners and agents with professional short-let hosts. Guaranteed Rent or Co-Hosting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#164A3A; --fresh:#20A66A; --cream:#FAF8F3; --white:#FFFFFF;
+  --ink:#222222; --grey:#E9E9E6;
+  --ink-2:#5A5F5C; --ink-3:#8A8F8C;
+  --fresh-soft:#20A66A14; --forest-soft:#164A3A0D;
+  --r:14px; --rs:10px;
+  --shadow:0 1px 2px #164A3A0A, 0 8px 24px -12px #164A3A26;
+  --shadow-lift:0 2px 4px #164A3A0F, 0 18px 40px -18px #164A3A38;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);
+  font:400 16px/1.55 Inter,system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;line-height:1.14;letter-spacing:-.022em;font-weight:700}
+h1{font-size:clamp(30px,5.4vw,54px);letter-spacing:-.032em}
+h2{font-size:clamp(22px,3.2vw,32px);letter-spacing:-.026em}
+h3{font-size:19px}
+p{margin:0}
+img{max-width:100%;display:block}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.mut{color:var(--ink-2)}
+.small{font-size:13.5px}
+.hide{display:none !important}
+
+/* ---------- wordmark ---------- */
+.logo{font-weight:800;font-size:21px;letter-spacing:-.045em;color:var(--forest);white-space:nowrap}
+.logo b{font-weight:800;color:var(--forest)}
+.logo i{font-style:normal;font-weight:500;color:var(--fresh)}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:60;background:#FAF8F3F2;backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--grey)}
+.hd{display:flex;align-items:center;gap:18px;height:66px}
+.hd nav{display:flex;gap:4px;margin-left:14px}
+.hd nav a{padding:9px 13px;border-radius:99px;font-size:14.5px;font-weight:500;color:var(--ink-2)}
+.hd nav a:hover{background:var(--forest-soft);color:var(--forest)}
+.hd nav a.on{background:var(--forest);color:#fff}
+.hd .sp{flex:1}
+@media(max-width:860px){.hd nav{display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid transparent;border-radius:99px;padding:12px 20px;font-size:15px;font-weight:600;
+  cursor:pointer;background:transparent;transition:transform .12s ease,background .15s,border-color .15s}
+.btn:active{transform:translateY(1px)}
+.btn-g{background:var(--fresh);color:#fff}
+.btn-g:hover{background:#1C9560}
+.btn-d{background:var(--forest);color:#fff}
+.btn-d:hover{background:#0F3A2D}
+.btn-o{border-color:var(--grey);background:var(--white);color:var(--ink)}
+.btn-o:hover{border-color:var(--forest);color:var(--forest)}
+.btn-sm{padding:9px 15px;font-size:14px}
+.btn-lg{padding:15px 26px;font-size:16px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn-full{width:100%}
+
+/* ---------- mobile tab bar ---------- */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;
+  background:#FFFFFFF5;backdrop-filter:blur(12px);border-top:1px solid var(--grey);
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 2px;font-size:10.5px;font-weight:600;color:var(--ink-3);border-radius:10px}
+.tabbar a.on{color:var(--forest);background:var(--forest-soft)}
+.tabbar svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:860px){.tabbar{display:flex}body{padding-bottom:70px}}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 54px}
+@media(max-width:700px){.hero{padding:34px 0 30px}}
+.herogrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,460px);gap:48px;align-items:center}
+@media(max-width:980px){.herogrid{grid-template-columns:1fr;gap:32px}}
+/* The brief asks for photography to carry the visual impact. On a phone the
+   picture goes below the words — the proposition has to land first. */
+.heroart{position:relative}
+@media(max-width:980px){.heroart{order:2;max-width:460px}}
+.heroart .big{border-radius:20px;overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow-lift)}
+.heroart .big img{width:100%;height:100%;object-fit:cover}
+.heroart .float{position:absolute;left:-22px;bottom:26px;background:var(--white);
+  border:1px solid var(--grey);border-radius:var(--r);padding:14px 16px;width:250px;
+  box-shadow:0 18px 40px -16px #164A3A45}
+.heroart .float .lab{font-size:10px;font-weight:700;letter-spacing:.075em;color:var(--forest);line-height:1.4}
+.heroart .float .det{font-size:17px;font-weight:700;margin-top:5px;letter-spacing:-.02em}
+.heroart .float .who{font-size:12px;color:var(--ink-3);margin-top:3px}
+@media(max-width:420px){.heroart .float{left:8px;bottom:12px;width:210px}}
+.heroart .badge{position:absolute;right:-14px;top:26px;background:var(--forest);color:#fff;
+  border-radius:var(--r);padding:12px 15px;box-shadow:0 14px 30px -12px #164A3A66}
+.heroart .badge b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.heroart .badge span{font-size:11.5px;opacity:.85}
+@media(max-width:420px){.heroart .badge{right:6px}}
+.hero h1{max-width:15ch}
+.hero h1 em{font-style:normal;color:var(--fresh)}
+.hero .sub{max-width:52ch;margin-top:18px;font-size:18.5px;color:var(--ink-2)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--fresh);margin-bottom:16px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--fresh);border-radius:2px}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:560px;margin-top:34px}
+@media(max-width:560px){.split{grid-template-columns:1fr}}
+.split .s{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:18px}
+.split .s b{display:block;font-size:15px;margin-bottom:5px}
+.split .s span{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+
+/* ---------- sections ---------- */
+section{padding:52px 0}
+@media(max-width:700px){section{padding:34px 0}}
+.sechead{margin-bottom:26px}
+.sechead p{margin-top:9px;color:var(--ink-2);max-width:60ch}
+
+/* ---------- property cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:20px}
+@media(max-width:640px){.grid{grid-template-columns:1fr;gap:16px}}
+.card{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);overflow:hidden;
+  cursor:pointer;transition:box-shadow .18s,transform .18s,border-color .18s;box-shadow:var(--shadow)}
+.card:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);border-color:#D8DCD8}
+.card .ph{position:relative;aspect-ratio:4/3;background:var(--grey);overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .bd{padding:15px 16px 17px}
+.card .loc{font-size:13px;color:var(--ink-3);font-weight:500}
+.card .ttl{font-size:16px;font-weight:600;margin:4px 0 2px;letter-spacing:-.015em}
+.card .meta{font-size:13.5px;color:var(--ink-2)}
+.card .comm{margin-top:12px;padding-top:12px;border-top:1px solid var(--grey)}
+.card .comm .lab{font-size:10.5px;font-weight:700;letter-spacing:.075em;color:var(--forest)}
+.card .comm .det{font-size:15px;font-weight:600;margin-top:3px}
+.tags{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:5px 9px;border-radius:99px;
+  background:#FFFFFFF0;color:var(--forest);backdrop-filter:blur(6px)}
+.tag.early{background:var(--forest);color:#fff}
+.tag.st-warn{background:#8A6410;color:#fff}
+.tag.st-off{background:#6C7370;color:#fff}
+.savebtn{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:99px;
+  background:#FFFFFFE6;border:none;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(6px)}
+.savebtn svg{width:17px;height:17px;stroke:var(--forest);fill:none;stroke-width:1.8}
+.savebtn.on svg{fill:var(--fresh);stroke:var(--fresh)}
+
+/* ---------- filters ---------- */
+.filters{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:16px;
+  margin-bottom:22px;box-shadow:var(--shadow)}
+.frow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}
+.f label{display:block;font-size:11.5px;font-weight:600;color:var(--ink-2);margin-bottom:5px;
+  letter-spacing:.02em}
+.f select,.f input{width:100%;padding:10px 11px;border:1px solid var(--grey);border-radius:var(--rs);
+  background:var(--white);font-size:14.5px;color-scheme:light}
+.f select:focus,.f input:focus{outline:2px solid var(--fresh);outline-offset:-1px;border-color:transparent}
+.fbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px;
+  padding-top:13px;border-top:1px solid var(--grey);flex-wrap:wrap}
+.count{font-size:14px;font-weight:600}
+
+/* ---------- detail ---------- */
+.detail{display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:30px;align-items:start}
+.detail > *{min-width:0}
+@media(max-width:960px){.detail{grid-template-columns:1fr}}
+.gallery{border-radius:var(--r);overflow:hidden;background:var(--grey);aspect-ratio:16/10}
+.gallery img{width:100%;height:100%;object-fit:cover}
+.panel{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:20px;
+  box-shadow:var(--shadow);min-width:0;max-width:100%}
+.panel + .panel{margin-top:16px}
+.sticky{position:sticky;top:86px}
+@media(max-width:960px){.sticky{position:static}}
+.rows{width:100%;border-collapse:collapse}
+.rows td{padding:10px 0;border-bottom:1px solid var(--grey);font-size:14.5px;vertical-align:top}
+.rows tr:last-child td{border-bottom:0}
+.rows td:first-child{color:var(--ink-2);width:48%}
+.rows td:last-child{font-weight:600;text-align:right}
+.feats{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.feat{font-size:13px;padding:6px 11px;border:1px solid var(--grey);border-radius:99px;background:var(--white)}
+.arrbox{border:1px solid var(--fresh);background:var(--fresh-soft);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.arrbox .k{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--forest)}
+.arrbox .v{font-size:19px;font-weight:700;margin-top:4px;letter-spacing:-.02em}
+.arrbox .b{font-size:13.5px;color:var(--ink-2);margin-top:7px;line-height:1.5}
+
+/* ---------- apply flow ---------- */
+.modal{position:fixed;inset:0;z-index:100;background:#164A3A5C;backdrop-filter:blur(3px);
+  display:grid;place-items:center;padding:20px}
+.sheet{background:var(--white);border-radius:18px;width:min(560px,100%);max-height:90vh;
+  overflow:auto;box-shadow:0 30px 70px -20px #164A3A66}
+@media(max-width:560px){.modal{padding:0;place-items:end}.sheet{border-radius:18px 18px 0 0;max-height:94vh}}
+.sh-hd{position:sticky;top:0;background:var(--white);padding:18px 22px 14px;border-bottom:1px solid var(--grey);
+  display:flex;align-items:center;gap:12px}
+.sh-hd .t{flex:1;font-weight:700;font-size:16px;letter-spacing:-.02em}
+.x{width:32px;height:32px;border-radius:99px;border:none;background:var(--grey);cursor:pointer;
+  font-size:17px;line-height:1;color:var(--ink-2)}
+.sh-bd{padding:22px}
+.prog{display:flex;gap:5px;padding:0 22px 14px}
+.prog i{flex:1;height:3px;border-radius:2px;background:var(--grey)}
+.prog i.on{background:var(--fresh)}
+.q{font-size:20px;font-weight:700;letter-spacing:-.022em;margin-bottom:6px}
+.qs{font-size:14px;color:var(--ink-2);margin-bottom:18px;line-height:1.5}
+.opt{display:block;width:100%;text-align:left;border:1.5px solid var(--grey);background:var(--white);
+  border-radius:var(--r);padding:16px 18px;margin-bottom:11px;cursor:pointer;transition:border-color .14s,background .14s}
+.opt:hover{border-color:var(--fresh)}
+.opt.sel{border-color:var(--fresh);background:var(--fresh-soft)}
+.opt b{display:block;font-size:15.5px;margin-bottom:4px}
+.opt span{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.fld{margin-bottom:16px}
+.fld label{display:block;font-size:14px;font-weight:600;margin-bottom:7px}
+.fld input,.fld select,.fld textarea{width:100%;padding:13px 14px;border:1px solid var(--grey);
+  border-radius:var(--rs);font-size:15.5px;background:var(--white);color-scheme:light}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:2px solid var(--fresh);outline-offset:-1px;border-color:transparent}
+.fld textarea{min-height:92px;resize:vertical}
+.hint{font-size:12.5px;color:var(--ink-3);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-size:13.5px;padding:9px 13px;border:1.5px solid var(--grey);border-radius:99px;
+  background:var(--white);cursor:pointer}
+.chip.on{border-color:var(--fresh);background:var(--fresh-soft);color:var(--forest);font-weight:600}
+.errs{background:#A93E1C10;border:1px solid #A93E1C40;border-radius:var(--rs);padding:12px 14px;margin-bottom:16px}
+.errs li{font-size:13.5px;color:#8C3316;margin-left:-8px}
+.sh-ft{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--grey);
+  padding:14px 22px;display:flex;gap:10px}
+.prefill{background:var(--forest-soft);border-radius:var(--rs);padding:13px 15px;margin-bottom:18px}
+.prefill b{font-size:13px;display:block;margin-bottom:4px;color:var(--forest)}
+.prefill span{font-size:13px;color:var(--ink-2);line-height:1.5}
+
+/* ---------- early access banner ---------- */
+.ea{border:1px solid var(--forest);background:var(--forest);color:#fff;border-radius:var(--r);
+  padding:16px 18px;margin-bottom:16px}
+.ea b{display:block;font-size:14.5px;margin-bottom:5px}
+.ea span{font-size:13.5px;opacity:.86;line-height:1.5}
+.ea .btn{margin-top:12px;background:var(--fresh);color:#fff}
+
+/* ---------- hosts ---------- */
+.hostcard{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:19px;
+  box-shadow:var(--shadow)}
+.hostcard .av{width:46px;height:46px;border-radius:99px;background:var(--forest);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:16px;letter-spacing:-.02em}
+.hostcard .top{display:flex;gap:13px;align-items:center;margin-bottom:13px}
+.hostcard .nm{font-weight:700;font-size:16px;letter-spacing:-.018em}
+.pro{font-size:10px;font-weight:800;letter-spacing:.07em;background:var(--fresh);color:#fff;
+  padding:3px 7px;border-radius:4px;margin-left:7px;vertical-align:middle}
+
+/* ---------- deal area ---------- */
+.msg{padding:13px 15px;border-radius:var(--r);margin-bottom:11px;max-width:85%;font-size:14.5px;
+  line-height:1.5;overflow-wrap:anywhere}
+.msg.them{background:var(--grey)}
+.msg.me{background:var(--forest);color:#fff;margin-left:auto}
+.msg .who{font-size:11.5px;font-weight:700;opacity:.75;margin-bottom:4px}
+.doc{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--grey)}
+.doc:last-child{border-bottom:0}
+.doc .nm{flex:1;font-size:14.5px}
+.pill2{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px}
+.pill2.good{background:var(--fresh-soft);color:#15784B}
+.pill2.warn{background:#8A641014;color:#8A6410}
+.bar{height:5px;background:var(--grey);border-radius:3px;overflow:hidden;margin:14px 0 6px}
+.bar i{display:block;height:100%;background:var(--fresh);border-radius:3px}
+
+/* ---------- steps ---------- */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.step .n{width:32px;height:32px;border-radius:99px;background:var(--forest);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:14px;margin-bottom:11px}
+.step b{display:block;font-size:15.5px;margin-bottom:5px}
+.step p{font-size:14px;color:var(--ink-2);line-height:1.55}
+
+.rolepick{display:flex;gap:8px;background:var(--white);border:1px solid var(--grey);
+  border-radius:99px;padding:5px;margin-bottom:22px;width:fit-content;max-width:100%;overflow:auto}
+.rolepick button{border:none;background:transparent;padding:9px 17px;border-radius:99px;
+  font-size:14.5px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--ink-2)}
+.rolepick button.on{background:var(--forest);color:#fff}
+
+.note{background:var(--white);border:1px solid var(--grey);border-left:3px solid var(--fresh);
+  border-radius:var(--rs);padding:15px 17px;margin-top:22px}
+.note b{display:block;font-size:14px;margin-bottom:5px}
+.note p{font-size:13.5px;color:var(--ink-2);line-height:1.6}
+
+footer{border-top:1px solid var(--grey);background:var(--white);padding:34px 0 44px;margin-top:30px}
+footer .fg{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:flex-start}
+footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
+.empty{text-align:center;padding:54px 20px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <a href="#/" class="logo"><b>rent</b><i>host</i></a>
+    <nav id="nav">
+      <a href="#/" data-r="home">Home</a>
+      <a href="#/properties" data-r="properties">Find property</a>
+      <a href="#/hosts" data-r="hosts">Find hosts</a>
+      <a href="#/deal" data-r="deal">Deal area</a>
+      <a href="#/pro" data-r="pro">RentHost Pro</a>
+    </nav>
+    <div class="sp"></div>
+    <button class="btn btn-o btn-sm" id="whoBtn" title="Prototype switch">Free host</button>
+    <a href="#/properties" class="btn btn-g btn-sm">List a property</a>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<nav class="tabbar" id="tabbar">
+  <a href="#/" data-r="home"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg>Home</a>
+  <a href="#/properties" data-r="properties"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>Property</a>
+  <a href="#/hosts" data-r="hosts"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Hosts</a>
+  <a href="#/deal" data-r="deal"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/></svg>Deals</a>
+  <a href="#/pro" data-r="pro"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.7 6.4.7-4.7 4.3 1.3 6.3L12 17l-5.6 3 1.3-6.3L3 9.4l6.4-.7z"/></svg>Pro</a>
+</nav>
+
+<div id="modal"></div>
+
+<footer>
+  <div class="wrap fg">
+    <div>
+      <div class="logo" style="margin-bottom:10px"><b>rent</b><i>host</i></div>
+      <p><b>Prototype.</b> Seeded content, no accounts and no real payments. Photographs are placeholders, credited below.
+      RentHost connects property owners and professional hosts &mdash; it is not a guest booking site, and it
+      does not guarantee rent, host performance or occupancy. &ldquo;Guaranteed Rent&rdquo; describes the
+      arrangement between the owner and the host.</p>
+      <p style="margin-top:14px;font-size:12px;line-height:1.7;color:var(--ink-3)"><b>Photographs</b> are placeholders from Wikimedia Commons, reused here under their licences and credited as required: <a href="https://commons.wikimedia.org/wiki/File%3AModern_living_room_with_stylish_furniture_and_a_view_of_the_outdoors_in_a_cozy_apartment_setting.jpg" rel="nofollow">Modern living room with stylish furniture and a view</a> &mdash; Shixart1985, CC BY 2.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AModern_rustic_interior_of_a_spacious_bar_featuring_wooden_accents_and_stylish_seating_in_a_lively_social_setting.jpg" rel="nofollow">Modern rustic interior of a spacious bar featuring w</a> &mdash; Shixart1985, CC BY 2.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AHester_Diamond_Living_Room_2_by_Rachel_Kaminsky.9.2020_03.jpg" rel="nofollow">Hester Diamond Living Room 2 by Rachel Kaminsky.9.20</a> &mdash; Rachel Kaminsky, CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3ABerlin%2C_Mitte%2C_Krausenstrasse_35-36%2C_Adina_Apartment_Hotel_03.jpg" rel="nofollow">Berlin, Mitte, Krausenstrasse 35-36, Adina Apartment</a> &mdash; Jörg Zägel, CC BY-SA 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AUkraine%2C_Odeska%2C_Odesa_-_Ark_Palace_apartment_complex_WMID6064908.jpg" rel="nofollow">Ukraine, Odeska, Odesa - Ark Palace apartment comple</a> &mdash; hyacint, CC BY-SA 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3ALobby_lounge_of_Amantaka_Suite_Amantaka_luxury_Resort_%26_Hotel_Luang_Prabang_Laos.jpg" rel="nofollow">Lobby lounge of Amantaka Suite Amantaka luxury Resor</a> &mdash; Basile Morin, CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AModern_bedroom_design_in_a_stylish_hotel_room_featuring_geometric_patterns_and_soft_linens.jpg" rel="nofollow">Modern bedroom design in a stylish hotel room featur</a> &mdash; Shixart1985, CC BY 2.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3ALiving_room_Germany_2006.jpg" rel="nofollow">Living room Germany 2006</a> &mdash; Reiner Kraft from Gilroy, USA, CC BY 2.0. Replace them with real property photography before launch.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="renthost.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  'use strict';
+  var NOW = new Date(RHDATA.NOW);
+  var P = RHDATA.PROPERTIES, H = RHDATA.HOSTS;
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s==null?'':s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+
+  /* prototype state — a real build puts all of this behind accounts */
+  var me = { pro:false, name:'Northern Stay Co.', years:6, units:14 };
+  var saved = {};
+  var applied = {};
+  var EA_HOURS = 168;                 // admin-configurable; see RH.earlyAccess
+
+  var filters = {};
+
+  /* ------------------------------------------------ small render helpers */
+  function statusTag(p){
+    var s = RH.PROPERTY_STATUS[p.status];
+    if (!s || s.key==='available') return '';
+    return '<span class="tag st-'+s.tone+'">'+esc(s.label)+'</span>';
+  }
+  function propCard(p){
+    var line = RH.cardLine(p);
+    var ea = RH.earlyAccess(p, NOW, EA_HOURS);
+    return '<article class="card" data-open="'+p.id+'">'+
+      '<div class="ph"><img src="'+p.img+'" alt="'+esc(p.title)+'" loading="lazy">'+
+        '<div class="tags">'+(ea.active?'<span class="tag early">EARLY ACCESS</span>':'')+statusTag(p)+
+          '<span class="tag">'+(p.listedBy==='agent'?'Agent listed':'Owner listed')+'</span></div>'+
+        '<button class="savebtn'+(saved[p.id]?' on':'')+'" data-save="'+p.id+'" aria-label="Save">'+
+          '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.2L6 21z"/></svg></button>'+
+      '</div>'+
+      '<div class="bd">'+
+        '<div class="loc">'+esc(RH.publicLocation(p))+'</div>'+
+        '<div class="ttl">'+esc(p.title)+'</div>'+
+        '<div class="meta">'+esc(p.type)+' &middot; '+p.bedrooms+' bed &middot; '+esc(p.furnished)+'</div>'+
+        '<div class="comm"><div class="lab">'+esc(line.label)+'</div><div class="det">'+esc(line.detail)+'</div></div>'+
+      '</div></article>';
+  }
+
+  /* ------------------------------------------------ routes */
+  var routes = {};
+
+  routes.home = function(){
+    return '<section class="hero"><div class="wrap herogrid">'+
+      '<div>'+
+        '<div class="eyebrow">Property partnerships</div>'+
+        '<h1>Where property owners meet <em>professional hosts</em>.</h1>'+
+        '<p class="sub">Owners have properties. Professional hosts need them. RentHost is where the two find '+
+        'each other, agree terms and exchange what they need to &mdash; without guests, bookings or middlemen.</p>'+
+        '<div class="cta"><a href="#/properties" class="btn btn-g btn-lg">Find a property</a>'+
+        '<a href="#/hosts" class="btn btn-o btn-lg">Find a host</a></div>'+
+        '<div class="split">'+
+          '<div class="s"><b>Guaranteed Rent + Full Management</b><span>The host runs everything and pays you '+
+          'an agreed fixed rent each month.</span></div>'+
+          '<div class="s"><b>Co-Hosting</b><span>You keep the property and the licence. The co-host provides '+
+          'agreed services for a commission.</span></div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="heroart">'+
+        '<div class="big"><img src="img/w1.jpg" alt="A property listed on RentHost"></div>'+
+        '<div class="float"><div class="lab">GUARANTEED RENT + FULL MANAGEMENT</div>'+
+          '<div class="det">&pound;2,500/month requested</div>'+
+          '<div class="who">Didsbury, Manchester &middot; Owner listed</div></div>'+
+        '<div class="badge"><b>7</b><span>host proposals</span></div>'+
+      '</div>'+
+      '</div></section>'+
+
+      '<section style="background:var(--white);border-block:1px solid var(--grey)"><div class="wrap">'+
+      '<div class="sechead"><h2>Latest opportunities</h2><p>Twelve seeded listings across six countries, '+
+      'showing both commercial models and every listing state.</p></div>'+
+      '<div class="grid" id="homeGrid">'+P.slice(0,6).map(propCard).join('')+'</div>'+
+      '<div style="margin-top:24px"><a href="#/properties" class="btn btn-o">See all '+P.length+' properties</a></div>'+
+      '</div></section>'+
+
+      '<section><div class="wrap">'+
+      '<div class="sechead"><h2>How it works</h2></div>'+
+      '<div class="rolepick" id="rolepick">'+
+        '<button data-role="owner" class="on">Property owners</button>'+
+        '<button data-role="host">Hosts</button>'+
+        '<button data-role="agent">Agents</button></div>'+
+      '<div class="steps" id="steps"></div>'+
+      '<div class="note"><b>What RentHost does not do</b><p>RentHost provides discovery, proposals, '+
+      'messaging and private document exchange. It does not collect rent, hold deposits, distribute '+
+      'commission or guarantee that any host or property is compliant. Both parties do their own '+
+      'due diligence, and the agreement is between them.</p></div>'+
+      '</div></section>';
+  };
+
+  var STEPS = {
+    owner:[['List your property','Create a free listing and choose how you want to work with a host.'],
+           ['Receive proposals','Professional hosts apply with their proposed arrangement and figures.'],
+           ['Compare and connect','Review host profiles side by side and speak to the ones you like.'],
+           ['Due diligence','Request and receive documents privately, inside the deal.'],
+           ['Agree','Settle the commercial arrangement directly with the host.']],
+    host:[['Create your profile','Tell owners about your experience and what you are looking for.'],
+          ['Discover properties','Search guaranteed rent and co-hosting opportunities worldwide.'],
+          ['Apply','Submit a proper proposal, not a generic message.'],
+          ['Connect','Discuss the property with the owner or agent.'],
+          ['Due diligence','Share insurance, company details and references privately.'],
+          ['Agree','Finalise directly with the owner.']],
+    agent:[['List on behalf of an owner','Confirm you have authority to market or introduce the property.'],
+           ['Find professional hosts','Receive applications or search host profiles directly.'],
+           ['Introduce','Connect suitable hosts with your client.'],
+           ['Agree terms','Any introduction fee is agreed directly between the parties.']]
+  };
+  function renderSteps(role){
+    var el = $('steps'); if (!el) return;
+    el.innerHTML = STEPS[role].map(function(s,i){
+      return '<div class="step"><div class="n">'+(i+1)+'</div><b>'+esc(s[0])+'</b><p>'+esc(s[1])+'</p></div>';
+    }).join('');
+  }
+
+  routes.properties = function(){
+    var vals = function(k){ var o={}; P.forEach(function(p){ if(p[k]) o[p[k]]=1; }); return Object.keys(o).sort(); };
+    var opts = function(list, sel){ return '<option value="">Any</option>'+list.map(function(v){
+      return '<option value="'+esc(v)+'"'+(sel===v?' selected':'')+'>'+esc(v)+'</option>'; }).join(''); };
+    return '<section><div class="wrap">'+
+      '<div class="sechead"><h2>Find a property</h2><p>Filter by where it is, what it is, and how the owner '+
+      'wants to work. Listings marked <b>Open to Either</b> appear under both arrangements.</p></div>'+
+      '<div class="filters">'+
+        '<div class="frow">'+
+          '<div class="f"><label for="fCountry">Country</label><select id="fCountry">'+opts(vals('country'),filters.country)+'</select></div>'+
+          '<div class="f"><label for="fCity">City</label><select id="fCity">'+opts(vals('city'),filters.city)+'</select></div>'+
+          '<div class="f"><label for="fType">Property type</label><select id="fType">'+opts(vals('type'),filters.type)+'</select></div>'+
+          '<div class="f"><label for="fArr">Arrangement</label><select id="fArr">'+
+            '<option value="">Any</option>'+
+            '<option value="guaranteed"'+(filters.arrangement==='guaranteed'?' selected':'')+'>Guaranteed Rent + Full Management</option>'+
+            '<option value="cohosting"'+(filters.arrangement==='cohosting'?' selected':'')+'>Co-Hosting</option>'+
+          '</select></div>'+
+          '<div class="f"><label for="fBeds">Bedrooms (min)</label><input id="fBeds" type="number" min="0" value="'+(filters.bedroomsMin||'')+'"></div>'+
+          '<div class="f"><label for="fListed">Listed by</label><select id="fListed">'+
+            '<option value="">Anyone</option>'+
+            '<option value="owner"'+(filters.listedBy==='owner'?' selected':'')+'>Property owner</option>'+
+            '<option value="agent"'+(filters.listedBy==='agent'?' selected':'')+'>Agent</option></select></div>'+
+        '</div>'+
+        '<div class="fbar"><span class="count" id="count"></span>'+
+          '<button class="btn btn-o btn-sm" id="clearF">Clear filters</button></div>'+
+      '</div>'+
+      '<div id="results"></div></div></section>';
+  };
+
+  function runSearch(){
+    var r = RH.search(P, filters);
+    var el = $('results'); if (!el) return;
+    el.innerHTML = r.length ? '<div class="grid">'+r.map(propCard).join('')+'</div>'
+      : '<div class="empty"><h3>No properties match</h3><p class="mut" style="margin-top:8px">'+
+        'Try widening the filters.</p></div>';
+    $('count').textContent = r.length + (r.length===1?' property':' properties');
+  }
+
+  routes.property = function(id){
+    var p = P.filter(function(x){ return x.id===id; })[0];
+    if (!p) return '<section><div class="wrap"><div class="empty">Not found.</div></div></section>';
+    var rows = RH.commercialSummary(p);
+    var gate = RH.canApply(p, me, NOW, EA_HOURS);
+    var st = RH.PROPERTY_STATUS[p.status];
+    var open = p.status === 'available';
+
+    var eaBox = '';
+    if (gate.early.active && !gate.allowed){
+      eaBox = '<div class="ea"><b>Early access property</b>'+
+        '<span>New listings open to RentHost Pro first. Upgrade to apply now, or wait '+
+        Math.ceil(gate.early.hoursLeft)+' hours until early access ends.</span>'+
+        '<a href="#/pro" class="btn btn-sm">Upgrade to Pro</a></div>';
+    } else if (gate.early.active && gate.allowed){
+      eaBox = '<div class="ea"><b>Early access &mdash; you can apply now</b>'+
+        '<span>Your RentHost Pro membership lets you apply during the early access window. '+
+        'Free hosts can apply in '+Math.ceil(gate.early.hoursLeft)+' hours.</span></div>';
+    }
+
+    return '<section><div class="wrap">'+
+      '<a href="#/properties" class="btn btn-o btn-sm" style="margin-bottom:18px">&larr; All properties</a>'+
+      '<div class="detail">'+
+        '<div>'+
+          '<div class="gallery"><img src="'+p.img+'" alt="'+esc(p.title)+'"></div>'+
+          '<div style="margin-top:22px">'+
+            '<div class="loc mut small">'+esc(RH.publicLocation(p))+'</div>'+
+            '<h2 style="margin-top:6px">'+esc(p.title)+'</h2>'+
+            '<p class="mut" style="margin-top:6px">'+esc(p.type)+' &middot; '+p.bedrooms+' bedrooms &middot; '+
+              p.bathrooms+' bathrooms &middot; '+esc(p.furnished)+'</p>'+
+            '<p style="margin-top:16px;max-width:62ch;line-height:1.65">'+esc(p.description)+'</p>'+
+            '<div class="feats">'+p.features.map(function(f){ return '<span class="feat">'+esc(f)+'</span>'; }).join('')+'</div>'+
+          '</div>'+
+          '<div class="panel" style="margin-top:22px"><h3 style="margin-bottom:12px">Listing</h3>'+
+            '<table class="rows">'+
+            '<tr><td>Available from</td><td>'+esc(p.availableFrom)+'</td></tr>'+
+            '<tr><td>Date listed</td><td>'+new Date(p.listedAt).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'</td></tr>'+
+            '<tr><td>Status</td><td>'+esc(st?st.label:'')+'</td></tr>'+
+            '<tr><td>Listed by</td><td>'+esc(p.ownerName)+' &middot; '+esc(p.ownerRole)+'</td></tr>'+
+            '<tr><td>On RentHost since</td><td>'+esc(p.ownerSince)+'</td></tr>'+
+            '</table>'+
+            '<p class="hint" style="margin-top:12px">The exact address is shared privately once you are '+
+            'in discussion. Owners and hosts are never required to publish a phone number or email.</p>'+
+          '</div>'+
+        '</div>'+
+
+        '<div class="sticky">'+
+          eaBox+
+          '<div class="arrbox"><div class="k">ARRANGEMENT</div>'+
+            '<div class="v">'+esc(RH.ARRANGEMENTS[p.arrangement].label)+'</div>'+
+            '<div class="b">'+esc(RH.ARRANGEMENTS[p.arrangement].blurb)+'</div></div>'+
+          '<div class="panel">'+
+            '<table class="rows" id="commRows">'+rows.map(function(r){
+              return '<tr><td>'+esc(r.label)+'</td><td>'+esc(r.value)+'</td></tr>'; }).join('')+'</table>'+
+            '<div style="display:flex;gap:10px;margin-top:18px">'+
+              (open
+                ? '<button class="btn btn-g btn-full" id="applyBtn"'+(gate.allowed?'':' disabled')+'>'+
+                  (applied[p.id] ? 'Application sent' : 'Apply for this property')+'</button>'
+                : '<button class="btn btn-o btn-full" disabled>'+esc(st?st.label:'Closed')+'</button>')+
+              '<button class="btn btn-o" id="saveBtn2" data-save="'+p.id+'">'+(saved[p.id]?'Saved':'Save')+'</button>'+
+            '</div>'+
+            (gate.allowed ? '' : '<p class="hint" style="margin-top:10px">Free hosts can apply once early access ends.</p>')+
+          '</div>'+
+        '</div>'+
+      '</div></div></section>';
+  };
+
+  routes.hosts = function(){
+    return '<section><div class="wrap">'+
+      '<div class="sechead"><h2>Find a professional host</h2><p>Owners and agents can approach hosts '+
+      'directly rather than waiting for applications. This is what makes it a two-way marketplace.</p></div>'+
+      '<div class="grid">'+H.map(function(h){
+        return '<div class="hostcard">'+
+          '<div class="top"><div class="av">'+esc(h.name.slice(0,2).toUpperCase())+'</div>'+
+          '<div><div class="nm">'+esc(h.name)+(h.pro?'<span class="pro">PRO</span>':'')+'</div>'+
+          '<div class="small mut">'+esc(h.city)+', '+esc(h.country)+'</div></div></div>'+
+          '<p class="small mut" style="line-height:1.6">'+esc(h.bio)+'</p>'+
+          '<table class="rows" style="margin-top:14px">'+
+            '<tr><td>Experience</td><td>'+h.years+' years &middot; '+h.units+' units</td></tr>'+
+            '<tr><td>Works as</td><td>'+h.models.map(function(m){ return RH.ARRANGEMENTS[m].short; }).join(' &amp; ')+'</td></tr>'+
+            '<tr><td>Areas</td><td>'+esc(h.areas.join(', '))+'</td></tr>'+
+          '</table>'+
+          '<button class="btn btn-d btn-full" style="margin-top:15px" data-invite="'+h.id+'">Invite host</button>'+
+        '</div>'; }).join('')+'</div></div></section>';
+  };
+
+  routes.deal = function(){
+    var d = RHDATA.DEAL;
+    var p = P.filter(function(x){ return x.id===d.property; })[0];
+    var h = H.filter(function(x){ return x.id===d.host; })[0];
+    var pr = RH.docProgress(d.docs);
+    return '<section><div class="wrap">'+
+      '<div class="sechead"><h2>Deal area</h2><p>Once both sides want to progress, the conversation, the '+
+      'proposal and the documents live in one private place. Nothing here is public.</p></div>'+
+      '<div class="detail">'+
+        '<div><div class="panel"><h3 style="margin-bottom:14px">Conversation</h3>'+
+          d.messages.map(function(m){
+            return '<div class="msg '+(m.from==='host'?'me':'them')+'">'+
+              '<div class="who">'+esc(m.name)+' &middot; '+esc(m.at)+'</div>'+esc(m.text)+'</div>'; }).join('')+
+          '<div style="display:flex;gap:9px;margin-top:16px">'+
+            '<input class="f" style="flex:1;min-width:0;padding:12px 14px;border:1px solid var(--grey);border-radius:var(--rs)" placeholder="Write a message" id="dealMsg">'+
+            '<button class="btn btn-d" id="dealSend">Send</button></div>'+
+        '</div></div>'+
+        '<div class="sticky">'+
+          '<div class="panel"><h3 style="margin-bottom:6px">The property</h3>'+
+            '<p class="small mut">'+esc(p.title)+' &middot; '+esc(RH.publicLocation(p))+'</p>'+
+            '<table class="rows" style="margin-top:12px">'+
+              '<tr><td>Arrangement</td><td>'+esc(RH.ARRANGEMENTS[d.proposal.arrangement].label)+'</td></tr>'+
+              '<tr><td>Rent offered</td><td>'+RH.money(d.proposal.rentOffered, d.proposal.currency)+'/month</td></tr>'+
+              '<tr><td>Term</td><td>'+d.proposal.termMonths+' months</td></tr>'+
+              '<tr><td>Start</td><td>'+esc(d.proposal.startDate)+'</td></tr>'+
+              '<tr><td>Host</td><td>'+esc(h.name)+'</td></tr>'+
+            '</table></div>'+
+          '<div class="panel"><h3>Documents</h3>'+
+            '<div class="bar"><i style="width:'+pr.pct+'%"></i></div>'+
+            '<p class="small mut" id="docPct">'+pr.received+' of '+pr.total+' received</p>'+
+            '<div style="margin-top:8px">'+d.docs.map(function(dc){
+              var s = RH.DOC_STATUS[dc.status];
+              return '<div class="doc"><span class="nm">'+esc(dc.type)+'</span>'+
+                '<span class="pill2 '+s.tone+'">'+esc(s.label)+'</span></div>'; }).join('')+'</div>'+
+            '<p class="hint" style="margin-top:12px">Documents are visible only to the two parties. '+
+            'RentHost does not certify that any document makes a host or property compliant &mdash; both '+
+            'sides carry out their own checks.</p></div>'+
+        '</div>'+
+      '</div></div></section>';
+  };
+
+  routes.pro = function(){
+    var plans = [['7 days','£9','Try it for one week'],['Monthly','£29','Cancel any time'],['6 months','£139','Save £35']];
+    return '<section><div class="wrap">'+
+      '<div class="sechead"><h2>RentHost Pro</h2><p>Listing a property is free, and always will be &mdash; '+
+      'the supply side has to be effortless. Hosts pay for speed: applying the moment a property appears '+
+      'rather than waiting for early access to end.</p></div>'+
+      '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">'+
+        plans.map(function(pl,i){
+          return '<div class="panel"'+(i===1?' style="border-color:var(--fresh);border-width:2px"':'')+'>'+
+            '<div class="small mut" style="font-weight:600">'+esc(pl[0])+'</div>'+
+            '<div style="font-size:34px;font-weight:800;letter-spacing:-.03em;margin:6px 0 2px">'+esc(pl[1])+'</div>'+
+            '<div class="small mut">'+esc(pl[2])+'</div>'+
+            '<button class="btn '+(i===1?'btn-g':'btn-o')+' btn-full" style="margin-top:16px" data-plan="'+i+'">Choose</button>'+
+          '</div>'; }).join('')+
+      '</div>'+
+      '<div class="panel" style="margin-top:22px"><h3 style="margin-bottom:12px">What Pro changes</h3>'+
+        '<table class="rows">'+
+          '<tr><td>Apply during early access</td><td>Pro only</td></tr>'+
+          '<tr><td>Respond to owner invitations immediately</td><td>Pro only</td></tr>'+
+          '<tr><td>Instant property alerts</td><td>Pro only</td></tr>'+
+          '<tr><td>Browse every property</td><td>Everyone</td></tr>'+
+          '<tr><td>Save properties and create Property Wanted</td><td>Everyone</td></tr>'+
+          '<tr><td>Appear in host search</td><td>Everyone</td></tr>'+
+          '<tr><td>Apply after early access ends</td><td>Everyone</td></tr>'+
+        '</table>'+
+        '<p class="hint" style="margin-top:14px">Prices and the early access window are settings, not code. '+
+        'An administrator changes them without a developer.</p></div>'+
+      '</div></section>';
+  };
+
+  /* ------------------------------------------------ apply flow */
+  var flow = null;
+
+  function openApply(id){
+    var p = P.filter(function(x){ return x.id===id; })[0];
+    var pr = RH.proposalFor(p.arrangement);
+    flow = { prop:p, step: pr.mustChoose ? 'choose' : 'form',
+             arrangement: pr.mustChoose ? null : pr.arrangement, values:{}, errors:[] };
+    renderModal();
+  }
+  function closeModal(){ flow = null; $('modal').innerHTML=''; }
+
+  function fieldHtml(f, v){
+    v = v==null ? '' : v;
+    if (f.type==='currency'){
+      return ['GBP','EUR','USD','AED'].map(function(c){
+        return '<button type="button" class="chip'+(v===c?' on':'')+'" data-set="currency" data-val="'+c+'">'+c+'</button>';
+      }).join('');
+    }
+    if (f.type==='term'){
+      return [12,24,36,60].map(function(m){
+        return '<button type="button" class="chip'+(String(v)===String(m)?' on':'')+'" data-set="termMonths" data-val="'+m+'">'+m+' months</button>';
+      }).join('');
+    }
+    if (f.type==='services'){
+      var chosen = Array.isArray(v)?v:[];
+      return RH.SERVICES.map(function(s){
+        return '<button type="button" class="chip'+(chosen.indexOf(s)>=0?' on':'')+'" data-toggle="'+esc(s)+'">'+esc(s)+'</button>';
+      }).join('');
+    }
+    if (f.type==='text') return '<textarea data-k="'+f.key+'" placeholder="Optional">'+esc(v)+'</textarea>';
+    if (f.type==='date') return '<input type="date" data-k="'+f.key+'" value="'+esc(v)+'">';
+    if (f.type==='percent') return '<input type="number" inputmode="decimal" min="0" max="100" step="0.5" data-k="'+f.key+'" value="'+esc(v)+'" placeholder="15">'+
+      '<div class="hint">Percentage of booking revenue, for example 15 for 15%.</div>';
+    return '<input type="number" inputmode="numeric" min="0" data-k="'+f.key+'" value="'+esc(v)+'" placeholder="0">';
+  }
+
+  /* Copy whatever is currently typed into the sheet back into flow.values.
+     Called before any re-render, and again on submit. */
+  function readInputs(){
+    if (!flow) return;
+    document.querySelectorAll('.sheet [data-k]').forEach(function(el){
+      flow.values[el.getAttribute('data-k')] = el.value;
+    });
+  }
+
+  function renderModal(){
+    if (!flow){ $('modal').innerHTML=''; return; }
+    var p = flow.prop, body='', foot='', prog='';
+
+    if (flow.step==='choose'){
+      var pr = RH.proposalFor(p.arrangement);
+      prog = '<div class="prog"><i class="on"></i><i></i><i></i></div>';
+      body = '<div class="q">How would you like to work with this owner?</div>'+
+        '<div class="qs">This owner is open to either arrangement. Choose one and we will ask only for '+
+        'what that arrangement needs.</div>'+
+        pr.choices.map(function(c){
+          return '<button class="opt" data-choose="'+c.key+'"><b>'+esc(c.label)+'</b><span>'+esc(c.blurb)+'</span></button>';
+        }).join('');
+    }
+    else if (flow.step==='form'){
+      var pr2 = RH.proposalFor(p.arrangement, flow.arrangement);
+      prog = '<div class="prog"><i class="on"></i><i class="on"></i><i></i></div>';
+      body = (flow.errors.length ? '<div class="errs"><ul>'+flow.errors.map(function(e){
+                return '<li>'+esc(e)+'</li>'; }).join('')+'</ul></div>' : '')+
+        '<div class="q">Your '+esc(RH.ARRANGEMENTS[flow.arrangement].short)+' proposal</div>'+
+        '<div class="qs">'+esc(RH.ARRANGEMENTS[flow.arrangement].blurb)+'</div>'+
+        '<div class="prefill"><b>Taken from your profile</b><span>'+esc(me.name)+' &middot; '+me.years+
+        ' years &middot; '+me.units+' units. We do not ask you to type this again.</span></div>'+
+        pr2.fields.map(function(f){
+          var wrap = (f.type==='currency'||f.type==='term'||f.type==='services')
+            ? '<div class="chips">'+fieldHtml(f, flow.values[f.key])+'</div>'
+            : fieldHtml(f, flow.values[f.key]);
+          return '<div class="fld"><label>'+esc(f.label)+(f.required?'':' <span class="mut" style="font-weight:400">(optional)</span>')+
+                 '</label>'+wrap+'</div>';
+        }).join('');
+      foot = '<button class="btn btn-o" id="backBtn">Back</button>'+
+             '<button class="btn btn-g" style="flex:1" id="sendBtn">Send proposal</button>';
+    }
+    else {
+      prog = '<div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i></div>';
+      body = '<div style="text-align:center;padding:14px 0 6px">'+
+        '<div style="width:56px;height:56px;border-radius:99px;background:var(--fresh-soft);color:var(--fresh);'+
+        'display:grid;place-items:center;margin:0 auto 16px;font-size:26px">&#10003;</div>'+
+        '<div class="q">Proposal sent</div>'+
+        '<div class="qs">'+esc(p.ownerName)+' can now compare your proposal against the others and start '+
+        'a conversation. You will see it in your deal area.</div>'+
+        '<a href="#/deal" class="btn btn-d" id="toDeal">Go to the deal area</a></div>';
+    }
+
+    $('modal').innerHTML = '<div class="modal" id="mdBack"><div class="sheet" role="dialog" aria-modal="true">'+
+      '<div class="sh-hd"><div class="t">'+esc(p.title)+'</div><button class="x" id="closeX" aria-label="Close">&times;</button></div>'+
+      prog+'<div class="sh-bd">'+body+'</div>'+(foot?'<div class="sh-ft">'+foot+'</div>':'')+
+      '</div></div>';
+  }
+
+  /* ------------------------------------------------ events */
+  document.addEventListener('click', function(e){
+    var t = e.target;
+
+    var save = t.closest && t.closest('[data-save]');
+    if (save){ e.stopPropagation(); var sid = save.getAttribute('data-save');
+      saved[sid] = !saved[sid]; render(); return; }
+
+    var card = t.closest && t.closest('[data-open]');
+    if (card){ location.hash = '#/property/' + card.getAttribute('data-open'); return; }
+
+    if (t.id==='applyBtn' && !t.disabled){
+      var pid = location.hash.split('/')[2]; openApply(pid); return;
+    }
+    if (t.id==='closeX' || t.id==='mdBack'){ closeModal(); return; }
+    if (t.id==='toDeal'){ closeModal(); return; }
+
+    var ch = t.closest && t.closest('[data-choose]');
+    if (ch && flow){ flow.arrangement = ch.getAttribute('data-choose'); flow.step='form'; flow.errors=[]; renderModal(); return; }
+
+    if (t.id==='backBtn' && flow){
+      var pr = RH.proposalFor(flow.prop.arrangement);
+      if (pr.mustChoose){ flow.step='choose'; flow.arrangement=null; flow.values={}; renderModal(); }
+      else closeModal();
+      return;
+    }
+
+    var setc = t.closest && t.closest('[data-set]');
+    if (setc && flow){
+      /* Picking a chip re-renders the sheet, which would throw away anything
+         already typed into the text inputs. Harvest them first. Without this,
+         typing a rent and then choosing a currency silently emptied the rent
+         and the form came back saying it was required. */
+      readInputs();
+      flow.values[setc.getAttribute('data-set')] = setc.getAttribute('data-val');
+      renderModal(); return;
+    }
+
+    var tog = t.closest && t.closest('[data-toggle]');
+    if (tog && flow){
+      readInputs();
+      var s = tog.getAttribute('data-toggle');
+      var cur = Array.isArray(flow.values.services)?flow.values.services.slice():[];
+      var i = cur.indexOf(s); if (i>=0) cur.splice(i,1); else cur.push(s);
+      flow.values.services = cur; renderModal(); return;
+    }
+
+    if (t.id==='sendBtn' && flow){
+      /* read the inputs, then let the RULES decide — the page never judges
+         a proposal itself, so the browser and node agree by construction */
+      readInputs();
+      var v = RH.validate(flow.arrangement, flow.values);
+      if (!v.ok){ flow.errors = v.errors; renderModal(); return; }
+      applied[flow.prop.id] = true;
+      flow.step='done'; flow.errors=[]; renderModal(); return;
+    }
+
+    var inv = t.closest && t.closest('[data-invite]');
+    if (inv){ inv.textContent = 'Invitation sent'; inv.disabled = true;
+      inv.className = 'btn btn-o btn-full'; return; }
+
+    var plan = t.closest && t.closest('[data-plan]');
+    if (plan){ me.pro = true; $('whoBtn').textContent = 'Pro host';
+      plan.textContent = 'Active'; render(); return; }
+
+    if (t.id==='whoBtn'){ me.pro = !me.pro; t.textContent = me.pro ? 'Pro host' : 'Free host'; render(); return; }
+
+    if (t.id==='clearF'){ filters = {}; render(); return; }
+
+    var role = t.closest && t.closest('[data-role]');
+    if (role){
+      document.querySelectorAll('#rolepick button').forEach(function(b){ b.classList.remove('on'); });
+      role.classList.add('on'); renderSteps(role.getAttribute('data-role')); return;
+    }
+
+    if (t.id==='dealSend'){
+      var box = $('dealMsg'); if (box && box.value.trim()){
+        var d = document.createElement('div'); d.className='msg me';
+        d.innerHTML = '<div class="who">'+esc(me.name)+' &middot; now</div>'+esc(box.value.trim());
+        box.closest('.panel').insertBefore(d, box.closest('div[style]')); box.value='';
+      }
+      return;
+    }
+  });
+
+  document.addEventListener('change', function(e){
+    var id = e.target.id;
+    if (!id) return;
+    var map = { fCountry:'country', fCity:'city', fType:'type', fArr:'arrangement',
+                fBeds:'bedroomsMin', fListed:'listedBy' };
+    if (map[id]){
+      var v = e.target.value;
+      if (v==='' ) delete filters[map[id]]; else filters[map[id]] = v;
+      runSearch();
+    }
+  });
+
+  /* ------------------------------------------------ router */
+  function render(){
+    var h = location.hash || '#/';
+    var parts = h.replace('#/','').split('/');
+    var name = parts[0] || 'home';
+    var html;
+    if (name==='property') html = routes.property(parts[1]);
+    else html = (routes[name] || routes.home)();
+    $('app').innerHTML = html;
+
+    var routeKey = (name==='property') ? 'properties' : (routes[name] ? name : 'home');
+    document.querySelectorAll('#nav a, #tabbar a').forEach(function(a){
+      a.classList.toggle('on', a.getAttribute('data-r')===routeKey);
+    });
+    if (name==='properties') runSearch();
+    if (routeKey==='home') renderSteps('owner');
+    window.scrollTo(0,0);
+    renderModal();
+  }
+  window.addEventListener('hashchange', render);
+  render();
+})();
+</script>
+</body>
+</html>
