@@ -74,6 +74,8 @@ header{position:sticky;top:0;z-index:60;background:#FAF8F3F2;backdrop-filter:blu
 .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
   padding:6px 2px;font-size:10.5px;font-weight:600;color:var(--ink-3);border-radius:10px}
 .tabbar a.on{color:var(--forest);background:var(--forest-soft)}
+.tabbar a.mid svg{background:var(--fresh);color:#fff;border-radius:9px;padding:3px;width:25px;height:25px}
+.tabbar a.mid{color:var(--forest)}
 .tabbar svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:860px){.tabbar{display:flex}body{padding-bottom:70px}}
@@ -232,6 +234,84 @@ section{padding:52px 0}
 .ea span{font-size:13.5px;opacity:.86;line-height:1.5}
 .ea .btn{margin-top:12px;background:var(--fresh);color:#fff}
 
+
+/* ---------- prototype bar ---------- */
+.protobar{background:var(--forest);color:#fff;font-size:12.5px}
+.protobar .wrap{display:flex;align-items:center;gap:12px;min-height:38px;padding-block:7px;flex-wrap:wrap}
+.protobar b{font-size:10.5px;font-weight:800;letter-spacing:.11em;background:#FFFFFF26;padding:4px 8px;border-radius:4px}
+.protobar span{opacity:.82}
+.protobar .sp{flex:1;min-width:0}
+.protobar label{opacity:.82}
+.protobar select{background:#FFFFFF1F;color:#fff;border:1px solid #FFFFFF3D;border-radius:7px;
+  padding:5px 9px;font-size:12.5px;color-scheme:dark}
+.protobar select option{color:#222}
+
+/* ---------- the big landlord call to action ---------- */
+.owncta{background:var(--forest);border-radius:20px;padding:34px;color:#fff;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center}
+@media(max-width:760px){.owncta{grid-template-columns:1fr;padding:24px;text-align:left}}
+.owncta h2{color:#fff;font-size:clamp(22px,3vw,30px)}
+.owncta p{margin-top:9px;opacity:.85;max-width:52ch;font-size:15.5px;line-height:1.6}
+.owncta .btn-g{font-size:16.5px;padding:17px 28px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+@media(max-width:760px){.owncta .btn-g{width:100%}}
+.owncta .free{display:block;margin-top:9px;font-size:12.5px;opacity:.7}
+
+/* ---------- arrangement explainer ---------- */
+.arrs{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.arrs{grid-template-columns:1fr}}
+.arrcard{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:22px;
+  box-shadow:var(--shadow)}
+.arrcard .k{font-size:10.5px;font-weight:800;letter-spacing:.09em;color:var(--fresh)}
+.arrcard h3{margin:8px 0 10px;font-size:19px}
+.arrcard p{font-size:14.5px;color:var(--ink-2);line-height:1.6}
+.arrcard .no{margin-top:12px;font-size:13.5px;font-weight:600;color:var(--forest);
+  background:var(--forest-soft);padding:9px 12px;border-radius:var(--rs)}
+.eithernote{margin-top:18px;background:var(--white);border:1px solid var(--grey);
+  border-left:3px solid var(--fresh);border-radius:var(--rs);padding:15px 17px}
+.eithernote b{font-size:14.5px}
+.eithernote p{font-size:14px;color:var(--ink-2);margin-top:5px;line-height:1.6}
+
+/* ---------- listing wizard ---------- */
+.wiz{max-width:600px;margin:0 auto}
+.wizbar{display:flex;gap:4px;margin-bottom:8px}
+.wizbar i{flex:1;height:4px;border-radius:2px;background:var(--grey)}
+.wizbar i.on{background:var(--fresh)}
+.wizstep{font-size:12.5px;font-weight:600;color:var(--ink-3);margin-bottom:20px}
+.wizq{font-size:clamp(21px,3.4vw,27px);font-weight:700;letter-spacing:-.024em;margin-bottom:7px}
+.wizs{font-size:15px;color:var(--ink-2);margin-bottom:22px;line-height:1.6}
+.wiznav{display:flex;gap:10px;margin-top:26px}
+.wiznav .btn-g{flex:1}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.tile{border:1.5px solid var(--grey);background:var(--white);border-radius:var(--r);padding:17px 15px;
+  cursor:pointer;text-align:left;transition:border-color .14s,background .14s}
+.tile:hover{border-color:var(--fresh)}
+.tile.on{border-color:var(--fresh);background:var(--fresh-soft)}
+.tile b{display:block;font-size:15px;margin-bottom:3px}
+.tile span{font-size:13px;color:var(--ink-2);line-height:1.45}
+.stepper{display:flex;align-items:center;gap:14px}
+.stepper button{width:44px;height:44px;border-radius:99px;border:1.5px solid var(--grey);
+  background:var(--white);font-size:20px;cursor:pointer;line-height:1}
+.stepper button:hover{border-color:var(--fresh)}
+.stepper .v{font-size:22px;font-weight:700;min-width:2.2ch;text-align:center}
+.photogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:9px;margin-top:12px}
+.photogrid button{aspect-ratio:4/3;border:1.5px solid var(--grey);border-radius:var(--rs);overflow:hidden;
+  background:var(--grey);cursor:pointer;padding:0;position:relative}
+.photogrid button.on{border-color:var(--fresh);border-width:2.5px}
+.photogrid img{width:100%;height:100%;object-fit:cover}
+.photogrid .tickmark{position:absolute;top:5px;right:5px;width:21px;height:21px;border-radius:99px;
+  background:var(--fresh);color:#fff;font-size:12px;display:grid;place-items:center}
+.reviewrow{display:flex;justify-content:space-between;gap:14px;padding:11px 0;
+  border-bottom:1px solid var(--grey);font-size:14.5px}
+.reviewrow:last-child{border-bottom:0}
+.reviewrow span:first-child{color:var(--ink-2)}
+.reviewrow span:last-child{font-weight:600;text-align:right}
+.todo{background:#8A641012;border:1px solid #8A641033;border-radius:var(--rs);padding:13px 15px;margin-bottom:18px}
+.todo b{display:block;font-size:13.5px;color:#7A5A0E;margin-bottom:6px}
+.todo a{display:block;font-size:13.5px;color:#7A5A0E;text-decoration:underline;margin-bottom:3px}
+.done-big{text-align:center;padding:26px 0}
+.done-big .tick{width:62px;height:62px;border-radius:99px;background:var(--fresh-soft);color:var(--fresh);
+  display:grid;place-items:center;margin:0 auto 18px;font-size:29px}
+
 /* ---------- hosts ---------- */
 .hostcard{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:19px;
   box-shadow:var(--shadow)}
@@ -283,30 +363,46 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
 </head>
 <body>
 
+<div class="protobar">
+  <div class="wrap">
+    <b>PROTOTYPE</b>
+    <span>Seeded content &middot; nothing saves</span>
+    <span class="sp"></span>
+    <label for="asWho">Viewing as</label>
+    <select id="asWho">
+      <option value="out">Signed out</option>
+      <option value="free">Signed in &mdash; Free host</option>
+      <option value="pro">Signed in &mdash; RentHost Pro host</option>
+      <option value="owner">Signed in &mdash; Property owner</option>
+    </select>
+  </div>
+</div>
+
 <header>
   <div class="wrap hd">
     <a href="#/" class="logo"><b>rent</b><i>host</i></a>
     <nav id="nav">
-      <a href="#/" data-r="home">Home</a>
-      <a href="#/properties" data-r="properties">Find property</a>
-      <a href="#/hosts" data-r="hosts">Find hosts</a>
-      <a href="#/deal" data-r="deal">Deal area</a>
-      <a href="#/pro" data-r="pro">RentHost Pro</a>
+      <a href="#/properties" data-r="properties">Find Properties</a>
+      <a href="#/hosts" data-r="hosts">Find Hosts</a>
+      <a href="#/list" data-r="list">List a Property</a>
+      <a href="#/how" data-r="how">How It Works</a>
+      <a href="#/pricing" data-r="pricing">Pricing</a>
+      <a href="#/deal" data-r="deal" id="navDeal" hidden>Deal Area</a>
     </nav>
     <div class="sp"></div>
-    <button class="btn btn-o btn-sm" id="whoBtn" title="Prototype switch">Free host</button>
-    <a href="#/properties" class="btn btn-g btn-sm">List a property</a>
+    <a href="#/signin" class="btn btn-o btn-sm" id="signInBtn">Sign In</a>
+    <a href="#/join" class="btn btn-d btn-sm" id="joinBtn">Join RentHost</a>
   </div>
 </header>
 
 <main id="app"></main>
 
 <nav class="tabbar" id="tabbar">
-  <a href="#/" data-r="home"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/></svg>Home</a>
-  <a href="#/properties" data-r="properties"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>Property</a>
+  <a href="#/properties" data-r="properties"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>Properties</a>
   <a href="#/hosts" data-r="hosts"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Hosts</a>
-  <a href="#/deal" data-r="deal"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 9h16"/></svg>Deals</a>
-  <a href="#/pro" data-r="pro"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.7 6.4.7-4.7 4.3 1.3 6.3L12 17l-5.6 3 1.3-6.3L3 9.4l6.4-.7z"/></svg>Pro</a>
+  <a href="#/list" data-r="list" class="mid"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>List</a>
+  <a href="#/how" data-r="how"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3 2.4V14"/><path d="M12 17h.01"/></svg>How</a>
+  <a href="#/pricing" data-r="pricing"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.7 6.4.7-4.7 4.3 1.3 6.3L12 17l-5.6 3 1.3-6.3L3 9.4l6.4-.7z"/></svg>Pricing</a>
 </nav>
 
 <div id="modal"></div>
@@ -336,7 +432,24 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
 
   /* prototype state — a real build puts all of this behind accounts */
-  var me = { pro:false, name:'Northern Stay Co.', years:6, units:14 };
+  /* Who is looking. The prototype bar at the top sets this; in the real site
+     it comes from the session. The Deal Area is private, so it is only in the
+     navigation when somebody is signed in. */
+  var me = { signedIn:false, role:null, pro:false, name:'Northern Stay Co.', years:6, units:14 };
+
+  function applyIdentity(){
+    var v = ($('asWho') && $('asWho').value) || 'out';
+    me.signedIn = v !== 'out';
+    me.pro  = v === 'pro';
+    me.role = v === 'owner' ? 'owner' : (me.signedIn ? 'host' : null);
+    var nd = $('navDeal'); if (nd) nd.hidden = !me.signedIn;
+    var si = $('signInBtn'), jn = $('joinBtn');
+    if (si && jn){
+      si.hidden = me.signedIn;
+      jn.textContent = me.signedIn ? 'My account' : 'Join RentHost';
+      jn.setAttribute('href', me.signedIn ? '#/deal' : '#/join');
+    }
+  }
   var saved = {};
   var applied = {};
   var EA_HOURS = 168;                 // admin-configurable; see RH.earlyAccess
@@ -373,18 +486,13 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
   routes.home = function(){
     return '<section class="hero"><div class="wrap herogrid">'+
       '<div>'+
-        '<div class="eyebrow">Property partnerships</div>'+
+        '<div class="eyebrow">RentHost</div>'+
         '<h1>Where property owners meet <em>professional hosts</em>.</h1>'+
-        '<p class="sub">Owners have properties. Professional hosts need them. RentHost is where the two find '+
-        'each other, agree terms and exchange what they need to &mdash; without guests, bookings or middlemen.</p>'+
-        '<div class="cta"><a href="#/properties" class="btn btn-g btn-lg">Find a property</a>'+
-        '<a href="#/hosts" class="btn btn-o btn-lg">Find a host</a></div>'+
-        '<div class="split">'+
-          '<div class="s"><b>Guaranteed Rent + Full Management</b><span>The host runs everything and pays you '+
-          'an agreed fixed rent each month.</span></div>'+
-          '<div class="s"><b>Co-Hosting</b><span>You keep the property and the licence. The co-host provides '+
-          'agreed services for a commission.</span></div>'+
-        '</div>'+
+        '<p class="sub">You have a property. Professional hosts want to run it &mdash; either paying you a '+
+        'guaranteed rent every month, or managing the guests for a commission. List it free and see what '+
+        'they offer.</p>'+
+        '<div class="cta"><a href="#/list" class="btn btn-g btn-lg">List your property &mdash; free</a>'+
+        '<a href="#/properties" class="btn btn-o btn-lg">Browse properties</a></div>'+
       '</div>'+
       '<div class="heroart">'+
         '<div class="big"><img src="img/w1.jpg" alt="A property listed on RentHost"></div>'+
@@ -395,15 +503,49 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       '</div>'+
       '</div></section>'+
 
+      /* The two arrangements, stated in the client's own words. Everything on
+         the site keys off this distinction, so the home page has to teach it
+         before anything else. */
       '<section style="background:var(--white);border-block:1px solid var(--grey)"><div class="wrap">'+
-      '<div class="sechead"><h2>Latest opportunities</h2><p>Twelve seeded listings across six countries, '+
-      'showing both commercial models and every listing state.</p></div>'+
-      '<div class="grid" id="homeGrid">'+P.slice(0,6).map(propCard).join('')+'</div>'+
-      '<div style="margin-top:24px"><a href="#/properties" class="btn btn-o">See all '+P.length+' properties</a></div>'+
+      '<div class="sechead"><h2>Two ways to work with a host</h2>'+
+      '<p>Pick one when you list, or say you are open to either and let hosts propose.</p></div>'+
+      '<div class="arrs">'+
+        '<div class="arrcard"><div class="k">ARRANGEMENT ONE</div>'+
+          '<h3>Guaranteed Rent + Full Management</h3>'+
+          '<p>The host manages and operates the property and pays you an agreed guaranteed, fixed rent.</p>'+
+          '<div class="no">You receive the same amount every month, booked or empty.</div></div>'+
+        '<div class="arrcard"><div class="k">ARRANGEMENT TWO</div>'+
+          '<h3>Co-Hosting</h3>'+
+          '<p>You (or your agent) continue to manage and look after the property, while the co-host '+
+          'provides agreed hosting services for a commission or fee.</p>'+
+          '<div class="no">There is no guaranteed rent under co-hosting.</div></div>'+
+      '</div>'+
+      '<div class="eithernote"><b>Open to Either</b>'+
+        '<p>Not sure which suits you? List as Open to Either and hosts will choose which kind of proposal '+
+        'to make. You compare them side by side and decide.</p></div>'+
       '</div></section>'+
 
       '<section><div class="wrap">'+
-      '<div class="sechead"><h2>How it works</h2></div>'+
+        '<div class="owncta">'+
+          '<div><h2>List your property &mdash; free</h2>'+
+          '<p>Nine short questions, one per screen. Most owners finish in a couple of minutes on their '+
+          'phone. Listing is free for owners and agents, always.</p></div>'+
+          '<div><a href="#/list" class="btn btn-g">LIST YOUR PROPERTY &mdash; FREE</a>'+
+          '<span class="free">No fee to list &middot; no obligation &middot; you choose the host</span></div>'+
+        '</div>'+
+      '</div></section>'+
+
+      '<section style="padding-top:0"><div class="wrap">'+
+      '<div class="sechead"><h2>Latest opportunities</h2></div>'+
+      '<div class="grid" id="homeGrid">'+P.slice(0,6).map(propCard).join('')+'</div>'+
+      '<div style="margin-top:24px"><a href="#/properties" class="btn btn-o">See all '+P.length+' properties</a></div>'+
+      '</div></section>';
+  };
+
+  routes.how = function(){
+    return '<section><div class="wrap">'+
+      '<div class="sechead"><h2>How it works</h2><p>RentHost introduces the two sides and gives you a '+
+      'private place to agree terms. The agreement itself is between you and the host.</p></div>'+
       '<div class="rolepick" id="rolepick">'+
         '<button data-role="owner" class="on">Property owners</button>'+
         '<button data-role="host">Hosts</button>'+
@@ -412,7 +554,9 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       '<div class="note"><b>What RentHost does not do</b><p>RentHost provides discovery, proposals, '+
       'messaging and private document exchange. It does not collect rent, hold deposits, distribute '+
       'commission or guarantee that any host or property is compliant. Both parties do their own '+
-      'due diligence, and the agreement is between them.</p></div>'+
+      'due diligence, and the agreement is between them. &ldquo;Guaranteed Rent&rdquo; describes the '+
+      'arrangement between the owner and the host &mdash; it is not a guarantee from RentHost.</p></div>'+
+      '<div style="margin-top:26px"><a href="#/list" class="btn btn-g btn-lg">List your property &mdash; free</a></div>'+
       '</div></section>';
   };
 
@@ -439,6 +583,176 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       return '<div class="step"><div class="n">'+(i+1)+'</div><b>'+esc(s[0])+'</b><p>'+esc(s[1])+'</p></div>';
     }).join('');
   }
+
+
+  /* ================= LIST A PROPERTY =================
+     One question per screen, conditional, and it never asks twice for
+     something it already knows. The step list and the terms fields come out
+     of renthost.js, so the sequence cannot drift from what the tests walk. */
+
+  var draft = { photos: [] };
+  var wizIdx = 0;
+  var wizDone = false;
+
+  var COUNTRIES = ['United Kingdom','United Arab Emirates','Spain','Portugal','Ireland','France','Other'];
+  var TYPES = [['Apartment','Flat in a block'],['House','A whole house'],['Studio','One room plus bathroom'],
+               ['Villa','Detached, usually with outside space'],['Other','Something else']];
+  var FURNISH = ['Furnished','Part furnished','Unfurnished'];
+  var PHOTO_POOL = ['img/w1.jpg','img/w4.jpg','img/w5.jpg','img/w8.jpg','img/w9.jpg','img/w10.jpg','img/w12.jpg','img/x1.jpg'];
+
+  function wizSteps(){ return RH.listingSteps(draft); }
+
+  function stepBody(key){
+    var A = RH.ARRANGEMENTS;
+    if (key === 'role'){
+      return tiles([['owner','I own the property','I am the landlord or one of the owners.'],
+                    ['agent','I am an agent','I am listing on behalf of the owner.']], 'role');
+    }
+    if (key === 'authority'){
+      return '<button class="tile'+(draft.authority?' on':'')+'" data-set2="authority" data-val2="1">'+
+        '<b>I confirm I have authority to market or introduce this property</b>'+
+        '<span>The owner has instructed me, and I can evidence that if asked. RentHost removes listings '+
+        'where that turns out not to be the case.</span></button>';
+    }
+    if (key === 'where'){
+      return '<div class="fld"><label>Country</label><select data-d="country">'+
+        '<option value="">Choose&hellip;</option>'+COUNTRIES.map(function(c){
+          return '<option'+(draft.country===c?' selected':'')+'>'+esc(c)+'</option>'; }).join('')+'</select></div>'+
+        '<div class="fld"><label>City or town</label><input data-d="city" value="'+esc(draft.city||'')+'" placeholder="Manchester"></div>'+
+        '<div class="fld"><label>Area or neighbourhood</label><input data-d="area" value="'+esc(draft.area||'')+'" placeholder="Didsbury">'+
+        '<div class="hint">This is all that appears publicly. Your full address is only ever shared '+
+        'privately, with a host you have chosen to talk to.</div></div>';
+    }
+    if (key === 'type'){
+      return tiles(TYPES.map(function(t){ return [t[0], t[0], t[1]]; }), 'type');
+    }
+    if (key === 'size'){
+      return '<div class="fld"><label>Bedrooms</label>'+stepper('bedrooms', draft.bedrooms==null?1:draft.bedrooms)+'</div>'+
+        '<div class="fld"><label>Bathrooms</label>'+stepper('bathrooms', draft.bathrooms==null?1:draft.bathrooms)+'</div>'+
+        '<div class="fld"><label>Is it furnished?</label><div class="chips">'+FURNISH.map(function(f){
+          return '<button type="button" class="chip'+(draft.furnished===f?' on':'')+'" data-set2="furnished" data-val2="'+esc(f)+'">'+esc(f)+'</button>';
+        }).join('')+'</div></div>';
+    }
+    if (key === 'arrangement'){
+      return tiles([
+        ['guaranteed', A.guaranteed.label, A.guaranteed.blurb + ' ' + A.guaranteed.ownerAsk],
+        ['cohosting',  A.cohosting.label,  A.cohosting.blurb  + ' ' + A.cohosting.ownerAsk],
+        ['either',     A.either.label,     A.either.ownerAsk]
+      ], 'arrangement', true);
+    }
+    if (key === 'terms'){
+      var f = RH.listingTerms(draft.arrangement);
+      if (!f.length) return '<p class="mut">Choose an arrangement first.</p>';
+      return '<div class="prefill"><b>'+esc(A[draft.arrangement].label)+'</b><span>'+
+        esc(A[draft.arrangement].ownerAsk)+'</span></div>'+
+        f.map(function(x){
+          var v = draft[x.key];
+          var input;
+          if (x.type === 'currency'){
+            input = '<div class="chips">'+['GBP','EUR','USD','AED'].map(function(c){
+              return '<button type="button" class="chip'+(v===c?' on':'')+'" data-set2="currency" data-val2="'+c+'">'+c+'</button>';
+            }).join('')+'</div>';
+          } else if (x.type === 'percent'){
+            input = '<input type="number" inputmode="decimal" min="0" max="100" step="0.5" data-d="'+x.key+'" value="'+esc(v==null?'':v)+'" placeholder="15">';
+          } else {
+            input = '<input type="number" inputmode="numeric" min="0" data-d="'+x.key+'" value="'+esc(v==null?'':v)+'" placeholder="0">';
+          }
+          return '<div class="fld"><label>'+esc(x.label)+(x.required?'':' <span class="mut" style="font-weight:400">(optional)</span>')+
+            '</label>'+input+(x.hint?'<div class="hint">'+esc(x.hint)+'</div>':'')+'</div>';
+        }).join('');
+    }
+    if (key === 'photos'){
+      return '<p class="wizs" style="margin-bottom:14px">In the real site you would upload from your phone. '+
+        'For the prototype, tap a few of these.</p>'+
+        '<div class="photogrid">'+PHOTO_POOL.map(function(src){
+          var on = (draft.photos||[]).indexOf(src)>=0;
+          return '<button type="button" class="'+(on?'on':'')+'" data-photo="'+src+'">'+
+            '<img src="'+src+'" alt="">'+(on?'<span class="tickmark">&#10003;</span>':'')+'</button>';
+        }).join('')+'</div>'+
+        '<div class="hint" style="margin-top:11px">'+((draft.photos||[]).length)+' selected. The first one '+
+        'becomes the main photograph.</div>';
+    }
+    if (key === 'details'){
+      return '<div class="fld"><label>When is it available?</label>'+
+        '<div class="chips">'+['Immediately','Within a month','1 October 2026','1 December 2026'].map(function(x){
+          return '<button type="button" class="chip'+(draft.availableFrom===x?' on':'')+'" data-set2="availableFrom" data-val2="'+esc(x)+'">'+esc(x)+'</button>';
+        }).join('')+'</div></div>'+
+        '<div class="fld"><label>Anything a host should know? <span class="mut" style="font-weight:400">(optional)</span></label>'+
+        '<textarea data-d="description" placeholder="Parking, licences already held, restrictions, why it suits short stays.">'+esc(draft.description||'')+'</textarea></div>';
+    }
+    if (key === 'review'){
+      var miss = RH.listingMissing(draft);
+      var A2 = RH.ARRANGEMENTS[draft.arrangement];
+      var rows = [
+        ['Listed by', draft.role === 'agent' ? 'Agent' : 'Property owner'],
+        ['Where', [draft.area, draft.city, draft.country].filter(Boolean).join(', ') || '&mdash;'],
+        ['Property', [draft.type, draft.bedrooms ? draft.bedrooms+' bed' : '', draft.furnished].filter(Boolean).join(' &middot; ') || '&mdash;'],
+        ['Arrangement', A2 ? A2.label : '&mdash;']
+      ];
+      if (draft.arrangement === 'guaranteed' || draft.arrangement === 'either'){
+        rows.push(['Guaranteed rent wanted', draft.rentRequested ? RH.money(draft.rentRequested, draft.currency)+'/month' : 'Open to proposals']);
+      }
+      if (draft.arrangement === 'cohosting' || draft.arrangement === 'either'){
+        rows.push(['Commission offered', draft.commissionPct ? draft.commissionPct+'%' : 'Open to proposals']);
+      }
+      rows.push(['Photographs', ((draft.photos||[]).length)+' added']);
+      rows.push(['Available', draft.availableFrom || '&mdash;']);
+      return (miss.length
+          ? '<div class="todo"><b>Still to do</b>'+miss.map(function(m){
+              return '<a href="#" data-goto="'+m.step+'">'+esc(m.text)+'</a>'; }).join('')+'</div>'
+          : '')+
+        '<div class="panel">'+rows.map(function(r){
+          return '<div class="reviewrow"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>'; }).join('')+'</div>'+
+        '<div class="hint" style="margin-top:12px">Listing is free. You will see host proposals in your '+
+        'account and choose who to speak to.</div>';
+    }
+    return '';
+  }
+
+  function tiles(list, key, wide){
+    return '<div class="tiles"'+(wide?' style="grid-template-columns:1fr"':'')+'>'+list.map(function(t){
+      return '<button type="button" class="tile'+(draft[key]===t[0]?' on':'')+'" data-set2="'+key+'" data-val2="'+esc(t[0])+'">'+
+        '<b>'+esc(t[1])+'</b><span>'+esc(t[2]||'')+'</span></button>';
+    }).join('')+'</div>';
+  }
+  function stepper(key, v){
+    return '<div class="stepper"><button type="button" data-bump="'+key+'" data-by="-1">&minus;</button>'+
+      '<span class="v" id="v_'+key+'">'+v+'</span>'+
+      '<button type="button" data-bump="'+key+'" data-by="1">+</button></div>';
+  }
+
+  routes.list = function(){
+    if (wizDone){
+      return '<section><div class="wrap wiz"><div class="done-big">'+
+        '<div class="tick">&#10003;</div>'+
+        '<div class="wizq">Your property is listed</div>'+
+        '<p class="wizs">Hosts can see it now. RentHost Pro hosts can apply straight away; everyone else '+
+        'can apply once the early access window ends. You will be told about every proposal.</p>'+
+        '<a href="#/properties" class="btn btn-g btn-lg" id="seeListed">See it in the marketplace</a>'+
+        '<div style="margin-top:12px"><button class="btn btn-o" id="listAgain">List another property</button></div>'+
+        '</div></div></section>';
+    }
+    var steps = wizSteps();
+    if (wizIdx >= steps.length) wizIdx = steps.length - 1;
+    var st = steps[wizIdx];
+    var last = wizIdx === steps.length - 1;
+    var miss = RH.listingMissing(draft);
+    return '<section><div class="wrap wiz">'+
+      '<div class="wizbar">'+steps.map(function(_,i){
+        return '<i class="'+(i<=wizIdx?'on':'')+'"></i>'; }).join('')+'</div>'+
+      '<div class="wizstep">Step '+(wizIdx+1)+' of '+steps.length+'</div>'+
+      '<div class="wizq" id="wizQ">'+esc(st.title)+'</div>'+
+      '<div id="wizBody">'+stepBody(st.key)+'</div>'+
+      '<div class="wiznav">'+
+        (wizIdx>0 ? '<button class="btn btn-o" id="wizBack">Back</button>' : '')+
+        (last
+          ? '<button class="btn btn-g" id="wizPublish"'+(miss.length?' disabled':'')+'>Publish listing</button>'
+          : '<button class="btn btn-g" id="wizNext">Continue</button>')+
+      '</div>'+
+      '<p class="hint" style="margin-top:16px">Listing is free for owners and agents. You can stop and '+
+      'come back &mdash; nothing is published until you press publish.</p>'+
+      '</div></section>';
+  };
 
   routes.properties = function(){
     var vals = function(k){ var o={}; P.forEach(function(p){ if(p[k]) o[p[k]]=1; }); return Object.keys(o).sort(); };
@@ -491,7 +805,7 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       eaBox = '<div class="ea"><b>Early access property</b>'+
         '<span>New listings open to RentHost Pro first. Upgrade to apply now, or wait '+
         Math.ceil(gate.early.hoursLeft)+' hours until early access ends.</span>'+
-        '<a href="#/pro" class="btn btn-sm">Upgrade to Pro</a></div>';
+        '<a href="#/pricing" class="btn btn-sm">Upgrade to Pro</a></div>';
     } else if (gate.early.active && gate.allowed){
       eaBox = '<div class="ea"><b>Early access &mdash; you can apply now</b>'+
         '<span>Your RentHost Pro membership lets you apply during the early access window. '+
@@ -565,6 +879,17 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
   };
 
   routes.deal = function(){
+    /* Private by design: the brief says the deal area belongs to signed-in
+       users, not the public navigation. */
+    if (!me.signedIn){
+      return '<section><div class="wrap wiz" style="text-align:center;padding:40px 0">'+
+        '<div class="wizq">The deal area is private</div>'+
+        '<p class="wizs">Conversations, proposals and documents are only visible to the two parties in '+
+        'a deal. Sign in to see yours.</p>'+
+        '<a href="#/join" class="btn btn-g btn-lg">Join RentHost</a>'+
+        '<p class="hint" style="margin-top:14px">In this prototype, use the <b>Viewing as</b> control at '+
+        'the top of the page.</p></div></section>';
+    }
     var d = RHDATA.DEAL;
     var p = P.filter(function(x){ return x.id===d.property; })[0];
     var h = H.filter(function(x){ return x.id===d.host; })[0];
@@ -605,10 +930,19 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       '</div></div></section>';
   };
 
-  routes.pro = function(){
+  routes.join = routes.signin = function(){
+    return '<section><div class="wrap wiz" style="text-align:center;padding:34px 0">'+
+      '<div class="wizq">Accounts are not built yet</div>'+
+      '<p class="wizs">Registration, sign-in and profiles are the first phase of the real build. In this '+
+      'prototype you can switch between a signed-out visitor, a free host, a Pro host and a property '+
+      'owner using the <b>Viewing as</b> control at the top of the page.</p>'+
+      '<a href="#/list" class="btn btn-g btn-lg">List a property instead</a></div></section>';
+  };
+
+  routes.pricing = function(){
     var plans = [['7 days','£9','Try it for one week'],['Monthly','£29','Cancel any time'],['6 months','£139','Save £35']];
     return '<section><div class="wrap">'+
-      '<div class="sechead"><h2>RentHost Pro</h2><p>Listing a property is free, and always will be &mdash; '+
+      '<div class="sechead"><h2>Pricing</h2><p>Listing a property is free, and always will be &mdash; '+
       'the supply side has to be effortless. Hosts pay for speed: applying the moment a property appears '+
       'rather than waiting for early access to end.</p></div>'+
       '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">'+
@@ -678,6 +1012,15 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
     if (!flow) return;
     document.querySelectorAll('.sheet [data-k]').forEach(function(el){
       flow.values[el.getAttribute('data-k')] = el.value;
+    });
+  }
+
+  /* Harvest typed wizard fields before any re-render, for the same reason the
+     apply sheet does: a tile click rebuilds the step and would otherwise throw
+     away whatever was typed above it. */
+  function readDraft(){
+    document.querySelectorAll('[data-d]').forEach(function(el){
+      draft[el.getAttribute('data-d')] = el.value;
     });
   }
 
@@ -793,10 +1136,60 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       inv.className = 'btn btn-o btn-full'; return; }
 
     var plan = t.closest && t.closest('[data-plan]');
-    if (plan){ me.pro = true; $('whoBtn').textContent = 'Pro host';
-      plan.textContent = 'Active'; render(); return; }
+    if (plan){
+      me.pro = true; me.signedIn = true;
+      if ($('asWho')) $('asWho').value = 'pro';
+      applyIdentity(); plan.textContent = 'Active'; render(); return; }
 
-    if (t.id==='whoBtn'){ me.pro = !me.pro; t.textContent = me.pro ? 'Pro host' : 'Free host'; render(); return; }
+    /* ---- listing wizard ---- */
+    var tile = t.closest && t.closest('[data-set2]');
+    if (tile){
+      readDraft();
+      var k = tile.getAttribute('data-set2'), v = tile.getAttribute('data-val2');
+      draft[k] = (k === 'authority') ? true : v;
+      /* Changing the arrangement invalidates figures typed for the other one.
+         Clearing them here means the review screen and the published listing
+         can never disagree about which model this is. */
+      if (k === 'arrangement'){
+        if (v === 'guaranteed') delete draft.commissionPct;
+        if (v === 'cohosting'){ delete draft.rentRequested; }
+      }
+      render(); return;
+    }
+    var bump = t.closest && t.closest('[data-bump]');
+    if (bump){
+      readDraft();
+      var bk = bump.getAttribute('data-bump');
+      var cur = draft[bk] == null ? 1 : parseInt(draft[bk], 10);
+      draft[bk] = Math.max(0, cur + parseInt(bump.getAttribute('data-by'), 10));
+      render(); return;
+    }
+    var ph = t.closest && t.closest('[data-photo]');
+    if (ph){
+      readDraft();
+      var src = ph.getAttribute('data-photo');
+      draft.photos = draft.photos || [];
+      var pi = draft.photos.indexOf(src);
+      if (pi >= 0) draft.photos.splice(pi,1); else draft.photos.push(src);
+      render(); return;
+    }
+    if (t.id==='wizNext'){ readDraft(); wizIdx = Math.min(wizSteps().length-1, wizIdx+1); render(); return; }
+    if (t.id==='wizBack'){ readDraft(); wizIdx = Math.max(0, wizIdx-1); render(); return; }
+    var go = t.closest && t.closest('[data-goto]');
+    if (go){
+      e.preventDefault(); readDraft();
+      var want = go.getAttribute('data-goto');
+      wizSteps().forEach(function(st,i){ if (st.key===want) wizIdx = i; });
+      render(); return;
+    }
+    if (t.id==='wizPublish' && !t.disabled){
+      readDraft();
+      var np = RH.draftToProperty(draft, 'new'+(P.length+1), NOW);
+      P.unshift(np);
+      wizDone = true; render(); return;
+    }
+    if (t.id==='listAgain'){ draft = { photos: [] }; wizIdx = 0; wizDone = false; render(); return; }
+
 
     if (t.id==='clearF'){ filters = {}; render(); return; }
 
@@ -818,6 +1211,11 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
 
   document.addEventListener('change', function(e){
     var id = e.target.id;
+    if (id === 'asWho'){ applyIdentity(); render(); return; }
+    if (e.target.hasAttribute && e.target.hasAttribute('data-d')){
+      draft[e.target.getAttribute('data-d')] = e.target.value;
+      return;
+    }
     if (!id) return;
     var map = { fCountry:'country', fCity:'city', fType:'type', fArr:'arrangement',
                 fBeds:'bedroomsMin', fListed:'listedBy' };
@@ -843,11 +1241,12 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       a.classList.toggle('on', a.getAttribute('data-r')===routeKey);
     });
     if (name==='properties') runSearch();
-    if (routeKey==='home') renderSteps('owner');
+    if (name==='how') renderSteps('owner');
     window.scrollTo(0,0);
     renderModal();
   }
   window.addEventListener('hashchange', render);
+  applyIdentity();
   render();
 })();
 </script>

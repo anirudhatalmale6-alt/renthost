@@ -38,7 +38,17 @@
         { key: 'termMonths',   label: 'Proposed agreement length',       type: 'term',   required: true },
         { key: 'startDate',    label: 'Proposed start date',             type: 'date',   required: true },
         { key: 'message',      label: 'Short message to the owner',      type: 'text',   required: false }
-      ]
+      ],
+      /* The LISTING side is not the same question as the proposal side, and
+         conflating them is an easy way to end up asking an owner what rent
+         they are offering to pay. The owner ASKS for a rent; the host OFFERS
+         one. Different words, different direction, same arrangement. */
+      listingFields: [
+        { key: 'rentRequested', label: 'Guaranteed rent you want, per month', type: 'money',
+          required: false, hint: 'Leave this blank if you would rather hear what hosts offer.' },
+        { key: 'currency',      label: 'Currency', type: 'currency', required: true }
+      ],
+      ownerAsk: 'You receive a fixed rent every month, whether the property is booked or not.'
     },
     cohosting: {
       key: 'cohosting',
@@ -52,7 +62,12 @@
         { key: 'fixedFee',      label: 'Proposed fixed fee, if any', type: 'money',   required: false },
         { key: 'services',      label: 'Services included',          type: 'services', required: true },
         { key: 'message',       label: 'Short message to the owner', type: 'text',    required: false }
-      ]
+      ],
+      listingFields: [
+        { key: 'commissionPct', label: 'Commission you are offering', type: 'percent',
+          required: false, hint: 'Leave this blank if you would rather hear what co-hosts propose.' }
+      ],
+      ownerAsk: 'You keep the property and the licence. You pay the co-host only out of what it earns.'
     },
     either: {
       key: 'either',
@@ -63,9 +78,109 @@
       managedBy: 'Depends on the proposal',
       /* deliberately empty: "Open to Either" is not a thing you can propose.
          The host picks a real model first — see proposalFor(). */
-      fields: []
+      fields: [],
+      /* An owner CAN list as Open to Either, though — that is the whole point
+         of it. Both figures are optional guides, not commitments. */
+      listingFields: [
+        { key: 'rentRequested', label: 'Guaranteed rent you would want, per month', type: 'money',
+          required: false, hint: 'Optional. A guide for hosts proposing a fixed rent.' },
+        { key: 'currency',      label: 'Currency', type: 'currency', required: true },
+        { key: 'commissionPct', label: 'Commission you would offer a co-host', type: 'percent',
+          required: false, hint: 'Optional. A guide for hosts proposing co-hosting.' }
+      ],
+      ownerAsk: 'Hosts can propose either way, and you decide which you prefer once you see the offers.'
     }
   };
+
+  /* ---------- listing a property: one question per screen ---------------
+     The brief asks for a step-by-step flow rather than a long form, and for
+     the steps to be conditional. Declared as data so the page renders it and
+     the tests can walk it without either of them owning the sequence. */
+
+  var LISTING_STEPS = [
+    { key: 'role',        title: 'Are you the owner or an agent?' },
+    { key: 'where',       title: 'Where is the property?' },
+    { key: 'type',        title: 'What kind of property is it?' },
+    { key: 'size',        title: 'How big is it?' },
+    { key: 'arrangement', title: 'How do you want to work with a host?' },
+    { key: 'terms',       title: 'The commercial terms' },
+    { key: 'photos',      title: 'Add photographs' },
+    { key: 'details',     title: 'Availability and description' },
+    { key: 'review',      title: 'Check and publish' }
+  ];
+
+  /* Which steps actually apply to this part-built listing. Agents get one
+     extra question — the brief requires them to confirm authority to market
+     the property — and nobody else should ever see it. */
+  function listingSteps(draft) {
+    draft = draft || {};
+    var steps = LISTING_STEPS.slice();
+    if (draft.role === 'agent') {
+      steps.splice(1, 0, { key: 'authority', title: 'Confirm your authority' });
+    }
+    return steps;
+  }
+
+  function listingTerms(arrangement) {
+    var a = ARRANGEMENTS[arrangement];
+    return a ? (a.listingFields || []).slice() : [];
+  }
+
+  /* What still has to be answered before this listing could go live. Returned
+     as a list rather than a boolean so the review screen can point at the
+     step that needs attention instead of just refusing. */
+  function listingMissing(draft) {
+    draft = draft || {};
+    var missing = [];
+    if (!draft.role)                       missing.push({ step: 'role',  text: 'Say whether you are the owner or an agent.' });
+    if (draft.role === 'agent' && !draft.authority)
+                                           missing.push({ step: 'authority', text: 'Confirm you have authority to market this property.' });
+    if (!has(draft.country) || !has(draft.city) || !has(draft.area))
+                                           missing.push({ step: 'where', text: 'Give the country, city and area.' });
+    if (!has(draft.type))                  missing.push({ step: 'type',  text: 'Choose a property type.' });
+    if (!has(draft.bedrooms))              missing.push({ step: 'size',  text: 'Say how many bedrooms it has.' });
+    if (!ARRANGEMENTS[draft.arrangement] ) missing.push({ step: 'arrangement', text: 'Choose how you want to work with a host.' });
+    else if (!has(draft.currency))         missing.push({ step: 'terms', text: 'Choose a currency.' });
+    if (!(draft.photos && draft.photos.length))
+                                           missing.push({ step: 'photos', text: 'Add at least one photograph.' });
+    if (!has(draft.availableFrom))         missing.push({ step: 'details', text: 'Say when it is available.' });
+    return missing;
+  }
+
+  /* Turn a completed draft into a listing the rest of the engine understands,
+     so a newly listed property renders through exactly the same card, filter
+     and detail code as a seeded one. */
+  function draftToProperty(draft, id, now) {
+    var a = ARRANGEMENTS[draft.arrangement] || ARRANGEMENTS.guaranteed;
+    var p = {
+      id: id, title: draft.title || ((draft.bedrooms || 1) + '-bed ' + String(draft.type || 'property').toLowerCase()),
+      img: (draft.photos && draft.photos[0]) || '',
+      country: draft.country, city: draft.city, area: draft.area,
+      type: draft.type, bedrooms: num(draft.bedrooms, 1), bathrooms: num(draft.bathrooms, 1),
+      furnished: draft.furnished || 'Unfurnished',
+      currency: draft.currency || 'GBP', arrangement: a.key,
+      listedBy: draft.role === 'agent' ? 'agent' : 'owner',
+      status: 'available',
+      listedAt: (now instanceof Date ? now : new Date(now || 0)).toISOString(),
+      availableFrom: draft.availableFrom || 'Immediately',
+      features: draft.features || [],
+      description: draft.description || '',
+      ownerName: draft.contactName || 'You',
+      ownerRole: draft.role === 'agent' ? 'Agent' : 'Property Owner',
+      ownerSince: '2026'
+    };
+    /* Only ever copy the figure that belongs to the chosen arrangement. This
+       is the same no-mixing rule as the proposal side: a co-hosting listing
+       must not carry a rent, even if the owner typed one before changing
+       their mind about the arrangement. */
+    if (a.key === 'guaranteed' || a.key === 'either') {
+      if (has(draft.rentRequested)) p.rentRequested = num(draft.rentRequested);
+    }
+    if (a.key === 'cohosting' || a.key === 'either') {
+      if (has(draft.commissionPct)) p.commissionPct = num(draft.commissionPct);
+    }
+    return p;
+  }
 
   /* Fields that belong to exactly one model. Used by the tests to prove the
      two never bleed into each other, and by validate() to reject a payload
@@ -301,6 +416,8 @@
     ARRANGEMENTS: ARRANGEMENTS, SERVICES: SERVICES, PROPERTY_STATUS: PROPERTY_STATUS,
     DOC_TYPES: DOC_TYPES, DOC_STATUS: DOC_STATUS,
     GUARANTEED_ONLY: GUARANTEED_ONLY, COHOSTING_ONLY: COHOSTING_ONLY,
+    LISTING_STEPS: LISTING_STEPS, listingSteps: listingSteps, listingTerms: listingTerms,
+    listingMissing: listingMissing, draftToProperty: draftToProperty,
     proposalFor: proposalFor, commercialSummary: commercialSummary, cardLine: cardLine,
     earlyAccess: earlyAccess, canApply: canApply,
     matches: matches, search: search, validate: validate,

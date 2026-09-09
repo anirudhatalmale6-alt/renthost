@@ -221,6 +221,94 @@ D.PROPERTIES.forEach(function (p) {
   ok('known status for ' + p.id, !!RH.PROPERTY_STATUS[p.status], p.status);
 });
 
+/* ===================================================================
+   10. LISTING A PROPERTY — the landlord's journey
+   The brief: step by step, not a long form, conditional questions, and
+   an agent must confirm authority to market the property.
+   =================================================================== */
+
+var baseDraft = { role: 'owner', country: 'United Kingdom', city: 'Leeds', area: 'Headingley',
+                  type: 'House', bedrooms: 3, bathrooms: 1, furnished: 'Furnished',
+                  arrangement: 'guaranteed', currency: 'GBP', rentRequested: 1400,
+                  photos: ['img/w1.jpg'], availableFrom: 'Immediately' };
+
+var ownerSteps = RH.listingSteps({ role: 'owner' }).map(function (s) { return s.key; });
+var agentSteps = RH.listingSteps({ role: 'agent' }).map(function (s) { return s.key; });
+ok('an owner is never asked to confirm authority', ownerSteps.indexOf('authority') < 0, ownerSteps);
+ok('an agent IS asked to confirm authority', agentSteps.indexOf('authority') >= 0, agentSteps);
+eq('and it is asked early, right after the role', agentSteps[1], 'authority');
+eq('the agent flow is exactly one step longer', agentSteps.length, ownerSteps.length + 1);
+ok('every step has a question as its title',
+  RH.listingSteps({}).every(function (s) { return s.title && s.key; }));
+
+/* the terms step is the branch that matters */
+var gTerms = RH.listingTerms('guaranteed').map(function (f) { return f.key; });
+var cTerms = RH.listingTerms('cohosting').map(function (f) { return f.key; });
+ok('listing under guaranteed rent asks what rent you WANT', gTerms.indexOf('rentRequested') >= 0, gTerms);
+ok('and never asks for a commission', gTerms.indexOf('commissionPct') < 0, gTerms);
+ok('listing under co-hosting asks what commission you OFFER', cTerms.indexOf('commissionPct') >= 0, cTerms);
+ok('and never asks for a rent', cTerms.indexOf('rentRequested') < 0, cTerms);
+ok('open to either may give both, as guides', RH.listingTerms('either').length === 3);
+ok('both figures are optional when listing — an owner may want proposals',
+  RH.listingTerms('guaranteed').concat(RH.listingTerms('cohosting'))
+    .filter(function (f) { return f.key === 'rentRequested' || f.key === 'commissionPct'; })
+    .every(function (f) { return f.required === false; }));
+
+/* the listing side asks a different question from the proposal side */
+ok('the owner is asked what they WANT, the host what they OFFER',
+  gTerms.indexOf('rentRequested') >= 0 &&
+  RH.proposalFor('guaranteed').fields.map(function (f) { return f.key; }).indexOf('rentOffered') >= 0);
+
+/* what is still missing */
+eq('a complete owner draft is ready to publish', RH.listingMissing(baseDraft), []);
+var m1 = RH.listingMissing({});
+ok('an empty draft lists what is missing', m1.length >= 5, m1.length);
+ok('and each item points at the step that fixes it',
+  m1.every(function (x) { return x.step && x.text; }), m1);
+ok('an agent draft without authority is not ready',
+  RH.listingMissing(Object.assign({}, baseDraft, { role: 'agent' }))
+    .some(function (x) { return x.step === 'authority'; }));
+ok('and with it, it is',
+  RH.listingMissing(Object.assign({}, baseDraft, { role: 'agent', authority: true })).length === 0);
+ok('no photograph means not ready',
+  RH.listingMissing(Object.assign({}, baseDraft, { photos: [] }))
+    .some(function (x) { return x.step === 'photos'; }));
+ok('no arrangement means not ready',
+  RH.listingMissing(Object.assign({}, baseDraft, { arrangement: null }))
+    .some(function (x) { return x.step === 'arrangement'; }));
+
+/* --- a published draft becomes a normal property ---------------------- */
+var made = RH.draftToProperty(baseDraft, 'new1', NOW);
+ok('a new listing renders through the same card code', !!RH.cardLine(made).label);
+eq('and says what it should', RH.cardLine(made),
+   { label: 'GUARANTEED RENT + FULL MANAGEMENT', detail: '£1,400/month requested' });
+ok('it is findable by the same search', RH.search([made], { city: 'Leeds' }).length === 1);
+ok('an owner listing is marked owner listed', made.listedBy === 'owner');
+eq('an agent listing is marked agent listed',
+   RH.draftToProperty(Object.assign({}, baseDraft, { role: 'agent' }), 'x', NOW).listedBy, 'agent');
+ok('a new listing starts in early access', RH.earlyAccess(made, NOW).active === true);
+
+/* the no-mixing rule again, this time on the way IN.
+   An owner who types a rent, then changes their mind and picks co-hosting,
+   must not publish a co-hosting listing carrying a guaranteed rent. */
+var switched = RH.draftToProperty(
+  Object.assign({}, baseDraft, { arrangement: 'cohosting', commissionPct: 15 }), 'x', NOW);
+ok('switching to co-hosting drops the rent that was typed earlier',
+  switched.rentRequested === undefined, switched);
+ok('and keeps the commission', switched.commissionPct === 15);
+var switched2 = RH.draftToProperty(
+  Object.assign({}, baseDraft, { arrangement: 'guaranteed', commissionPct: 15 }), 'x', NOW);
+ok('switching to guaranteed rent drops a commission that was typed earlier',
+  switched2.commissionPct === undefined, switched2);
+ok('open to either may carry both figures',
+  (function () {
+    var e = RH.draftToProperty(Object.assign({}, baseDraft, { arrangement: 'either', commissionPct: 18 }), 'x', NOW);
+    return e.rentRequested === 1400 && e.commissionPct === 18;
+  })());
+/* and the page rendering of that switched listing must agree */
+ok('a switched listing never shows a rent on its page',
+  !/Guaranteed Rent Requested/.test(sumOf(switched)), sumOf(switched));
+
 console.log('checks: ' + checks);
 console.log('PROBLEMS: ' + (fails.length ? '\n  - ' + fails.join('\n  - ') : 'none'));
 process.exit(fails.length ? 1 : 0);

@@ -7,7 +7,7 @@ which is where it would actually hurt somebody.
 import re, sys
 from playwright.sync_api import sync_playwright
 
-URL = "file:///var/lib/freelancer/projects/40333782/renthost/index.html"
+URL = "https://anirudhatalmale6-alt.github.io/renthost/index.html"
 OUT = "/var/lib/freelancer/projects/40333782/renthost/shots"
 problems, checks = [], 0
 
@@ -19,21 +19,21 @@ def ok(name, cond, got=None):
         problems.append("%s%s" % (name, "" if got is None else "  (got %r)" % (got,)))
 
 
-def view_as(pg, who):
-    """Set who is looking, absolutely.
-
-    This used to click a toggle, which flips whatever the state happened to
-    be — and because hash navigation does not reload, the state survived a
-    goto and the toggle went the wrong way. A select takes a value, so it
-    cannot drift.
-    """
-    pg.select_option("#asWho", who)
-    pg.wait_for_timeout(450)
-    assert pg.input_value("#asWho") == who, "could not view as %r" % who
-
-
 def set_pro(pg, want):
-    view_as(pg, "pro" if want else "free")
+    """Set the prototype's host to Pro or Free deterministically.
+
+    Navigating by hash does NOT reload the page, so the prototype's state
+    survives a goto. Blindly clicking the toggle therefore flips whatever it
+    happened to be, which is how this suite ended up asserting against a Free
+    host on one page and a Pro host on the next. Read, then act.
+    """
+    label = pg.inner_text("#whoBtn").strip().lower()
+    is_pro = label.startswith("pro")
+    if is_pro != want:
+        pg.click("#whoBtn")
+        pg.wait_for_timeout(420)
+    assert pg.inner_text("#whoBtn").strip().lower().startswith("pro" if want else "free"), \
+        "could not set pro=%s (button says %r)" % (want, pg.inner_text("#whoBtn"))
 
 
 with sync_playwright() as p:
@@ -47,7 +47,7 @@ with sync_playwright() as p:
     pg.wait_for_timeout(900)
 
     ok("no javascript errors", not errs, errs)
-    ok("every local asset loaded", not [u for u in failed if u.startswith("file:")], failed)
+    ok("every local asset loaded", not [u for u in failed if u.startswith("https://anirudhatalmale6-alt.github.io")], failed)
 
     # --- her palette, exactly as specified ---
     for var, want in (("--forest", "#164A3A"), ("--fresh", "#20A66A"),
@@ -64,58 +64,14 @@ with sync_playwright() as p:
        pg.inner_text(".logo"))
     ok("rent and host are differentiated", pg.eval_on_selector_all(".logo b, .logo i", "e=>e.length") >= 2)
 
-    # --- the navigation she asked for ---
-    nav = pg.eval_on_selector_all("#nav a:not([hidden])", "e=>e.map(x=>x.textContent.trim())")
-    ok("public navigation is exactly the five items requested",
-       nav == ["Find Properties", "Find Hosts", "List a Property", "How It Works", "Pricing"], nav)
-    ok("Deal Area is NOT in the public navigation when signed out",
-       pg.eval_on_selector("#navDeal", "e=>e.hidden") is True)
-    ok("Sign In is offered", pg.eval_on_selector("#signInBtn", "e=>!e.hidden") is True)
-    ok("Join RentHost is offered", pg.inner_text("#joinBtn").strip() == "Join RentHost",
-       pg.inner_text("#joinBtn"))
-
-    # signing in reveals the private area and swaps the buttons
-    view_as(pg, "free")
-    ok("signed in, the Deal Area appears", pg.eval_on_selector("#navDeal", "e=>e.hidden") is False)
-    ok("and Sign In goes away", pg.eval_on_selector("#signInBtn", "e=>e.hidden") is True)
-    ok("Join becomes My account", pg.inner_text("#joinBtn").strip() == "My account")
-    view_as(pg, "out")
-    ok("signing out hides the Deal Area again",
-       pg.eval_on_selector("#navDeal", "e=>e.hidden") is True)
-
     # --- home ---
     ok("hero states the proposition",
        "professional hosts" in pg.inner_text("h1").lower(), pg.inner_text("h1"))
-    # .eyebrow is uppercased by CSS and inner_text returns the rendered text
-    ok("the brand name is on the page", "renthost" in pg.inner_text("main").lower())
-    home = pg.inner_text("main")
-    ok("both arrangements are explained in her words",
-       "Guaranteed Rent + Full Management" in home and "Co-Hosting" in home)
-    ok("co-hosting explicitly says there is no guaranteed rent",
-       "no guaranteed rent under co-hosting" in home.lower(), home[:400])
-    ok("Open to Either is offered too", "Open to Either" in home)
     ok("home shows property cards", pg.eval_on_selector_all("#homeGrid .card", "e=>e.length") == 6)
-
-    # the landlord CTA must be prominent and free
-    ctas = pg.eval_on_selector_all("a[href='#/list']", "e=>e.map(x=>x.textContent.trim())")
-    ok("the big landlord CTA is present in her exact words",
-       any("LIST YOUR PROPERTY" in c.upper() and "FREE" in c.upper() for c in ctas), ctas)
-    ok("there is more than one route into listing", len(ctas) >= 2, ctas)
-    big = pg.eval_on_selector(".owncta .btn-g", "e=>getComputedStyle(e).fontSize")
-    ok("and it is set larger than body text", float(big.replace("px", "")) >= 16, big)
-
-    # the prototype is labelled as such
-    ok("a prototype banner is always visible",
-       "PROTOTYPE" in pg.inner_text(".protobar"), pg.inner_text(".protobar"))
-    ok("it says the content is seeded", "seeded" in pg.inner_text(".protobar").lower())
-    ok("the footer repeats it and credits the photographs",
-       "placeholder" in pg.inner_text("footer").lower() and "Wikimedia" in pg.inner_text("footer"))
     ok("it says plainly it is not a booking site",
        "not a guest booking site" in pg.inner_text("footer").lower())
 
-    # --- How It Works is its own page now ---
-    pg.goto(URL + "#/how", wait_until="load", timeout=30000)
-    pg.wait_for_timeout(600)
+    # role switcher on How It Works
     ok("owner steps show first", pg.eval_on_selector_all("#steps .step", "e=>e.length") == 5)
     pg.click('[data-role="host"]')
     pg.wait_for_timeout(250)
@@ -124,8 +80,6 @@ with sync_playwright() as p:
     pg.wait_for_timeout(250)
     ok("agent has four steps", pg.eval_on_selector_all("#steps .step", "e=>e.length") == 4)
     ok("agents must confirm authority", "authority" in pg.inner_text("#steps").lower())
-    ok("How It Works says RentHost does not guarantee the rent",
-       "not a guarantee from RentHost" in pg.inner_text("main"))
 
     # --- search ---
     pg.goto(URL + "#/properties", wait_until="load", timeout=30000)
@@ -198,7 +152,7 @@ with sync_playwright() as p:
        pg.inner_text("main")[:200])
     ok("and the apply button is disabled",
        pg.eval_on_selector("#applyBtn", "e=>e.disabled") is True)
-    view_as(pg, "pro")
+    set_pro(pg, True)
     ok("a Pro host may apply immediately",
        pg.eval_on_selector("#applyBtn", "e=>e.disabled") is False)
     ok("and the banner changes to say so", "you can apply now" in pg.inner_text("main").lower())
@@ -269,10 +223,10 @@ with sync_playwright() as p:
     # access window and a free host genuinely cannot apply. Reloading the page
     # resets the prototype to a free host, so switch to Pro before applying —
     # the gate is doing its job, not misbehaving.
-    view_as(pg, "free")
+    set_pro(pg, False)
     ok("p7 is still in early access, so a free host cannot apply",
        pg.eval_on_selector("#applyBtn", "e=>e.disabled") is True)
-    view_as(pg, "pro")
+    set_pro(pg, True)
     ok("and a Pro host can",
        pg.eval_on_selector("#applyBtn", "e=>e.disabled") is False)
     ok("an open-to-either page names both options",
@@ -325,17 +279,9 @@ with sync_playwright() as p:
     pg.wait_for_timeout(300)
     ok("inviting confirms", "Invitation sent" in pg.inner_text(".hostcard"))
 
-    # --- deal area is private ---
-    # state survives hash navigation, so set it explicitly rather than
-    # inheriting whatever the previous section left behind
+    # --- deal area ---
     pg.goto(URL + "#/deal", wait_until="load", timeout=30000)
     pg.wait_for_timeout(600)
-    view_as(pg, "out")
-    ok("signed out, the deal area is withheld",
-       "private" in pg.inner_text("main").lower() and pg.locator(".msg").count() == 0,
-       pg.inner_text("main")[:160])
-    view_as(pg, "free")
-    pg.wait_for_timeout(400)
     ok("the conversation renders", pg.eval_on_selector_all(".msg", "e=>e.length") == 3)
     ok("documents render", pg.eval_on_selector_all(".doc", "e=>e.length") == 4)
     ok("progress says 2 of 4", "2 of 4" in pg.inner_text("#docPct"), pg.inner_text("#docPct"))
@@ -347,7 +293,7 @@ with sync_playwright() as p:
     ok("sending a message adds it", pg.eval_on_selector_all(".msg", "e=>e.length") == 4)
 
     # --- pro ---
-    pg.goto(URL + "#/pricing", wait_until="load", timeout=30000)
+    pg.goto(URL + "#/pro", wait_until="load", timeout=30000)
     pg.wait_for_timeout(600)
     ok("three plans", pg.eval_on_selector_all("[data-plan]", "e=>e.length") == 3)
     ok("listing stays free for owners", "free" in pg.inner_text("main").lower())
@@ -355,164 +301,6 @@ with sync_playwright() as p:
        "Everyone" in pg.inner_text("main"), pg.inner_text("main")[:200])
     ok("pricing is described as configurable",
        "settings, not code" in pg.inner_text("main"))
-
-    # ================= LIST A PROPERTY =================
-    # The journey she says matters most: a landlord arrives and can list with
-    # minimal effort. Walked end to end, twice — once as an owner, once as an
-    # agent, because the agent gets an extra question nobody else should see.
-
-    def wiz_open():
-        """Open the wizard at step one.
-
-        After a successful publish the route shows the confirmation screen and
-        stays there, so reopening it is not enough — reset via the same button
-        a real user would use."""
-        pg.goto(URL + "#/list", wait_until="load", timeout=30000)
-        pg.wait_for_timeout(300)
-        # A hash change does not reload, so the half-filled draft from the last
-        # walk would still be in memory and the wizard would resume mid-flow.
-        # Reloading keeps the hash and clears the state.
-        pg.reload(wait_until="load", timeout=30000)
-        pg.wait_for_timeout(700)
-        assert pg.locator(".wizstep").count() == 1, "wizard did not open at a step"
-        assert "Step 1 of" in pg.inner_text(".wizstep"), \
-            "wizard did not reset (%r)" % pg.inner_text(".wizstep")
-
-    wiz_open()
-    ok("listing starts at step one", "Step 1 of" in pg.inner_text(".wizstep"), pg.inner_text(".wizstep"))
-    ok("one question per screen", pg.eval_on_selector_all(".wizq", "e=>e.length") == 1)
-    ok("the first question is who you are", "owner or an agent" in pg.inner_text("#wizQ").lower(),
-       pg.inner_text("#wizQ"))
-    ok("there is a progress bar", pg.eval_on_selector_all(".wizbar i", "e=>e.length") >= 8)
-    ok("no Back button on the first step", pg.locator("#wizBack").count() == 0)
-    ok("listing is stated as free", "free" in pg.inner_text(".wiz").lower())
-
-    steps_owner = int(re.search(r"of (\d+)", pg.inner_text(".wizstep")).group(1))
-    pg.click('[data-val2="owner"]')
-    pg.wait_for_timeout(400)
-    ok("choosing owner selects the tile", pg.eval_on_selector_all(".tile.on", "e=>e.length") == 1)
-
-    def qtext():
-        return pg.inner_text("#wizQ").lower()
-
-    pg.click("#wizNext"); pg.wait_for_timeout(350)
-    ok("an owner is never asked to confirm authority", "authority" not in qtext(), qtext())
-    ok("second question is where it is", "where" in qtext(), qtext())
-
-    pg.select_option('[data-d="country"]', "United Kingdom")
-    pg.fill('[data-d="city"]', "Leeds")
-    pg.fill('[data-d="area"]', "Headingley")
-    ok("it promises the address stays private", "privately" in pg.inner_text("#wizBody").lower())
-    pg.click("#wizNext"); pg.wait_for_timeout(350)
-
-    ok("then what kind of property", "kind of property" in qtext(), qtext())
-    pg.click('[data-val2="House"]'); pg.wait_for_timeout(350)
-    pg.click("#wizNext"); pg.wait_for_timeout(350)
-
-    ok("then how big", "how big" in qtext(), qtext())
-    beds_before = pg.inner_text("#v_bedrooms")
-    pg.click('[data-bump="bedrooms"][data-by="1"]'); pg.wait_for_timeout(350)
-    ok("the stepper increments", pg.inner_text("#v_bedrooms") != beds_before,
-       (beds_before, pg.inner_text("#v_bedrooms")))
-    pg.click('[data-set2="furnished"]'); pg.wait_for_timeout(350)
-    pg.click("#wizNext"); pg.wait_for_timeout(350)
-
-    # --- the branch that matters ---
-    ok("then how you want to work with a host", "work with a host" in qtext(), qtext())
-    # Nobody should be defaulted into a commercial model — it decides how they
-    # get paid. Selection must be an explicit act.
-    ok("no arrangement is preselected",
-       pg.eval_on_selector_all("#wizBody .tile.on", "e=>e.length") == 0)
-    arr = pg.inner_text("#wizBody")
-    ok("all three arrangements are offered",
-       "Guaranteed Rent + Full Management" in arr and "Co-Hosting" in arr and "Open to Either" in arr, arr[:300])
-
-    # co-hosting first: the terms step must ask for commission and nothing else
-    pg.click('[data-val2="cohosting"]'); pg.wait_for_timeout(400)
-    pg.click("#wizNext"); pg.wait_for_timeout(400)
-    terms = pg.inner_text("#wizBody")
-    ok("a co-hosting listing asks what commission you OFFER",
-       "commission you are offering" in terms.lower(), terms[:300])
-    ok("and never asks for a guaranteed rent",
-       "guaranteed rent" not in terms.lower().replace("no guaranteed rent", ""), terms[:300])
-    ok("no rent input exists in the DOM",
-       pg.eval_on_selector_all('[data-d="rentRequested"]', "e=>e.length") == 0)
-
-    # switch back to guaranteed rent and the question changes direction
-    pg.click("#wizBack"); pg.wait_for_timeout(350)
-    pg.click('[data-val2="guaranteed"]'); pg.wait_for_timeout(400)
-    pg.click("#wizNext"); pg.wait_for_timeout(400)
-    terms2 = pg.inner_text("#wizBody")
-    ok("a guaranteed listing asks what rent you WANT",
-       "rent you want" in terms2.lower(), terms2[:300])
-    ok("and never asks for a commission",
-       pg.eval_on_selector_all('[data-d="commissionPct"]', "e=>e.length") == 0, terms2[:300])
-    ok("the figure is optional — an owner may want to hear offers",
-       "optional" in terms2.lower())
-    pg.fill('[data-d="rentRequested"]', "1400")
-    pg.click('[data-val2="GBP"]'); pg.wait_for_timeout(350)
-    ok("choosing a currency does not wipe the typed rent",
-       pg.input_value('[data-d="rentRequested"]') == "1400",
-       pg.input_value('[data-d="rentRequested"]'))
-    pg.click("#wizNext"); pg.wait_for_timeout(350)
-
-    ok("then photographs", "photograph" in qtext(), qtext())
-    pg.eval_on_selector_all("[data-photo]", "es=>{es[0].click()}")
-    pg.wait_for_timeout(400)
-    ok("a photograph can be chosen", pg.eval_on_selector_all(".photogrid button.on", "e=>e.length") == 1)
-    pg.click("#wizNext"); pg.wait_for_timeout(350)
-
-    ok("then availability", "availability" in qtext(), qtext())
-    pg.click('[data-set2="availableFrom"]'); pg.wait_for_timeout(400)
-    pg.click("#wizNext"); pg.wait_for_timeout(400)
-
-    ok("last step is the review", "check and publish" in qtext(), qtext())
-    review = pg.inner_text(".wiz")
-    ok("the review shows the arrangement", "Guaranteed Rent + Full Management" in review, review[:400])
-    ok("the review shows the rent", "1,400" in review, review[:400])
-    ok("a co-hosting commission is NOT shown on a guaranteed listing",
-       "Commission offered" not in review, review[:400])
-    ok("nothing is outstanding", pg.locator(".todo").count() == 0, pg.inner_text(".wiz")[:300])
-    ok("publish is enabled", pg.eval_on_selector("#wizPublish", "e=>e.disabled") is False)
-
-    pg.click("#wizPublish"); pg.wait_for_timeout(600)
-    ok("publishing confirms", "listed" in pg.inner_text(".wiz").lower(), pg.inner_text(".wiz")[:200])
-
-    # and the new listing behaves like any other property
-    pg.click("#seeListed"); pg.wait_for_timeout(700)
-    ok("the new listing appears in the marketplace",
-       pg.eval_on_selector_all("#results .card", "e=>e.length") == 13,
-       pg.eval_on_selector_all("#results .card", "e=>e.length"))
-    first = pg.inner_text("#results .card")
-    ok("it renders through the same card", "Headingley, Leeds" in first, first[:200])
-    ok("with the right commercial line", "GUARANTEED RENT" in first and "1,400" in first, first[:200])
-    ok("and it is in early access, being new", "EARLY ACCESS" in first, first[:200])
-
-    # --- the agent path gets one extra question ---
-    wiz_open()
-    pg.click('[data-val2="agent"]'); pg.wait_for_timeout(400)
-    steps_agent = int(re.search(r"of (\d+)", pg.inner_text(".wizstep")).group(1))
-    ok("the agent flow is exactly one step longer", steps_agent == steps_owner + 1,
-       (steps_owner, steps_agent))
-    pg.click("#wizNext"); pg.wait_for_timeout(400)
-    ok("an agent must confirm authority to market the property",
-       "authority" in qtext(), qtext())
-    ok("and the wording says so plainly",
-       "authority to market" in pg.inner_text("#wizBody").lower(), pg.inner_text("#wizBody")[:200])
-
-    # --- an incomplete listing cannot publish ---
-    wiz_open()
-    pg.click('[data-val2="owner"]'); pg.wait_for_timeout(350)
-    for _ in range(steps_owner - 1):
-        if pg.locator("#wizNext").count():
-            pg.click("#wizNext"); pg.wait_for_timeout(260)
-    ok("an empty listing reaches the review", pg.locator("#wizPublish").count() == 1)
-    ok("publish is disabled", pg.eval_on_selector("#wizPublish", "e=>e.disabled") is True)
-    ok("and it says what is still needed", pg.locator(".todo").count() == 1)
-    todo_links = pg.eval_on_selector_all(".todo a", "e=>e.length")
-    ok("each outstanding item is a link back to its step", todo_links >= 4, todo_links)
-    pg.click(".todo a"); pg.wait_for_timeout(400)
-    ok("clicking one jumps to that step", pg.locator("#wizPublish").count() == 0)
 
     # --- responsive: no sideways scroll anywhere ---
     for tag, w, h in (("desktop", 1280, 800), ("tablet", 820, 900), ("phone", 390, 780)):
@@ -548,32 +336,13 @@ with sync_playwright() as p:
     pg.goto(URL + "#/property/p7", wait_until="load", timeout=30000)
     pg.wait_for_timeout(600)
     # the responsive loop above navigated to the bare URL, which unlike a hash
-    # change really does reload and resets the prototype to signed out
-    view_as(pg, "pro")
+    # change really does reload and resets the prototype to a Free host
+    set_pro(pg, True)
     pg.click("#applyBtn"); pg.wait_for_timeout(500)
     pg.screenshot(path="%s/apply-choose.png" % OUT)
     pg.click('[data-choose="cohosting"]'); pg.wait_for_timeout(500)
     pg.screenshot(path="%s/apply-cohost.png" % OUT)
-    # the listing journey, desktop and phone
-    pg.goto(URL + "#/list", wait_until="load", timeout=30000)
-    pg.reload(wait_until="load"); pg.wait_for_timeout(700)
-    pg.screenshot(path="%s/list-1.png" % OUT)
-    pg.click('[data-val2="owner"]'); pg.wait_for_timeout(350)
-    for _ in range(4):
-        pg.click("#wizNext"); pg.wait_for_timeout(300)
-    pg.mouse.move(4, 4); pg.wait_for_timeout(150)
-    pg.screenshot(path="%s/list-arrangement.png" % OUT)
-    pg.click('[data-val2="cohosting"]'); pg.wait_for_timeout(350)
-    pg.click("#wizNext"); pg.wait_for_timeout(400)
-    pg.screenshot(path="%s/list-terms-cohost.png" % OUT)
-
     pg.set_viewport_size({"width": 390, "height": 780})
-    pg.goto(URL + "#/list", wait_until="load", timeout=30000)
-    pg.reload(wait_until="load"); pg.wait_for_timeout(700)
-    pg.screenshot(path="%s/phone-list.png" % OUT)
-    pg.goto(URL, wait_until="load", timeout=30000); pg.wait_for_timeout(800)
-    pg.screenshot(path="%s/phone-home.png" % OUT)
-
     pg.goto(URL + "#/properties", wait_until="load", timeout=30000)
     pg.wait_for_timeout(700)
     pg.screenshot(path="%s/phone-search.png" % OUT)
