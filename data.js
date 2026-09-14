@@ -12,7 +12,7 @@
 
   var PROPERTIES = [
     {
-      id: 'p1', title: '2-bed apartment, marina view', img: 'img/w5.jpg',
+      id: 'p1', preferredTerm: '36 months', deposit: "Two months' rent", bills: 'Excluded', saStatus: 'Permitted — holiday home permit held', wants: 'An experienced Dubai operator with a permit of their own.', title: '2-bed apartment, marina view', img: 'img/w5.jpg',
       country: 'United Arab Emirates', city: 'Dubai', area: 'Dubai Marina',
       type: 'Apartment', bedrooms: 2, bathrooms: 2, furnished: 'Furnished',
       currency: 'AED', arrangement: 'guaranteed', rentRequested: 11500,
@@ -25,7 +25,7 @@
       ownerName: 'Yusuf A.', ownerRole: 'Property Owner', ownerSince: '2026'
     },
     {
-      id: 'p2', title: 'Georgian townhouse, 4 bed', img: 'img/w4.jpg',
+      id: 'p2', preferredTerm: '24 months', deposit: "One month's rent", bills: 'Included', saStatus: 'Already operating as a short let', wants: 'A co-host who can take over messaging and changeovers.', title: 'Georgian townhouse, 4 bed', img: 'img/w4.jpg',
       country: 'United Kingdom', city: 'Bath', area: 'Central Bath',
       type: 'House', bedrooms: 4, bathrooms: 2, furnished: 'Part furnished',
       currency: 'GBP', arrangement: 'cohosting', commissionPct: 15,
@@ -38,7 +38,7 @@
       ownerName: 'Helen M.', ownerRole: 'Property Owner', ownerSince: '2025'
     },
     {
-      id: 'p3', title: 'Studio in the old town', img: 'img/w1.jpg',
+      id: 'p3', preferredTerm: '12–36 months', deposit: 'To be agreed', bills: 'Excluded', saStatus: 'Licensed for short stays', wants: 'Either a fixed rent or a co-host — the owner will consider both.', title: 'Studio in the old town', img: 'img/w1.jpg',
       country: 'Portugal', city: 'Lisbon', area: 'Alfama',
       type: 'Studio', bedrooms: 1, bathrooms: 1, furnished: 'Furnished',
       currency: 'EUR', arrangement: 'either', rentRequested: 1400, commissionPct: 18,
@@ -50,7 +50,7 @@
       ownerName: 'Atlas Property', ownerRole: 'Agent', ownerSince: '2024'
     },
     {
-      id: 'p4', title: '3-bed family home, quiet street', img: 'img/x1.jpg',
+      id: 'p4', preferredTerm: '36 months', deposit: "Two months' rent", bills: 'Excluded', saStatus: 'No restriction known', wants: 'A guaranteed monthly figure and no involvement.', title: '3-bed family home, quiet street', img: 'img/x1.jpg',
       country: 'United Kingdom', city: 'Manchester', area: 'Didsbury',
       type: 'House', bedrooms: 3, bathrooms: 2, furnished: 'Unfurnished',
       currency: 'GBP', arrangement: 'guaranteed', rentRequested: 1850,
@@ -62,7 +62,7 @@
       ownerName: 'Northgate Lettings', ownerRole: 'Agent', ownerSince: '2023'
     },
     {
-      id: 'p5', title: 'Penthouse, 3 bed with terrace', img: 'img/w8.jpg',
+      id: 'p5', preferredTerm: 'Open', deposit: 'Not required', bills: 'Included', saStatus: 'Tourist licence held', wants: 'A co-host with Barcelona experience.', title: 'Penthouse, 3 bed with terrace', img: 'img/w8.jpg',
       country: 'Spain', city: 'Barcelona', area: 'Eixample',
       type: 'Apartment', bedrooms: 3, bathrooms: 2, furnished: 'Furnished',
       currency: 'EUR', arrangement: 'cohosting', commissionPct: null,
@@ -74,7 +74,7 @@
       ownerName: 'Marta R.', ownerRole: 'Property Owner', ownerSince: '2025'
     },
     {
-      id: 'p6', title: 'Serviced 1-bed, business district', img: 'img/w9.jpg',
+      id: 'p6', preferredTerm: '36 months', deposit: "One month's rent", bills: 'Excluded', saStatus: 'Block permits short stays', wants: 'An operator to take the whole unit on a fixed rent.', title: 'Serviced 1-bed, business district', img: 'img/w9.jpg',
       country: 'United Kingdom', city: 'Birmingham', area: 'Colmore Row',
       type: 'Apartment', bedrooms: 1, bathrooms: 1, furnished: 'Furnished',
       currency: 'GBP', arrangement: 'guaranteed', rentRequested: 1150,
@@ -86,7 +86,7 @@
       ownerName: 'David O.', ownerRole: 'Property Owner', ownerSince: '2026'
     },
     {
-      id: 'p7', title: 'Villa with pool, 4 bed', img: 'img/w10.jpg',
+      id: 'p7', preferredTerm: '12–24 months', deposit: 'To be agreed', bills: 'Excluded', saStatus: 'Not yet confirmed', wants: "Someone who will keep it occupied outside the family's six weeks.", title: 'Villa with pool, 4 bed', img: 'img/w10.jpg',
       country: 'Portugal', city: 'Faro', area: 'Vale do Lobo',
       type: 'Villa', bedrooms: 4, bathrooms: 3, furnished: 'Furnished',
       currency: 'EUR', arrangement: 'either', rentRequested: 4200, commissionPct: 20,
@@ -98,7 +98,7 @@
       ownerName: 'Sofia C.', ownerRole: 'Property Owner', ownerSince: '2025'
     },
     {
-      id: 'p8', title: 'Loft conversion, 2 bed', img: 'img/w12.jpg',
+      id: 'p8', preferredTerm: '24 months', deposit: "One month's rent", bills: 'Included', saStatus: 'Already operating', wants: 'Now let — kept visible to show a closed listing.', title: 'Loft conversion, 2 bed', img: 'img/w12.jpg',
       country: 'United Kingdom', city: 'Edinburgh', area: 'Leith',
       type: 'Apartment', bedrooms: 2, bathrooms: 1, furnished: 'Furnished',
       currency: 'GBP', arrangement: 'cohosting', commissionPct: 12,
@@ -110,7 +110,7 @@
       ownerName: 'Callum S.', ownerRole: 'Property Owner', ownerSince: '2024'
     },
     {
-      id: 'p9', title: 'New-build 2 bed, river view', img: 'img/w5.jpg',
+      id: 'p9', preferredTerm: '36 months', deposit: "Two months' rent", bills: 'Excluded', saStatus: '90-night cap applies without planning consent', wants: 'An operator comfortable with longer corporate stays.', title: 'New-build 2 bed, river view', img: 'img/w5.jpg',
       country: 'United Kingdom', city: 'London', area: 'Canary Wharf',
       type: 'Apartment', bedrooms: 2, bathrooms: 2, furnished: 'Furnished',
       currency: 'GBP', arrangement: 'guaranteed', rentRequested: 3400,
@@ -123,7 +123,7 @@
       ownerName: 'Meridian Residential', ownerRole: 'Agent', ownerSince: '2022'
     },
     {
-      id: 'p10', title: 'Cottage, 2 bed, coastal', img: 'img/x1.jpg',
+      id: 'p10', preferredTerm: '18 months', deposit: 'To be agreed', bills: 'Included', saStatus: 'Already operating with good reviews', wants: 'Help with turnarounds and the calendar, nothing more.', title: 'Cottage, 2 bed, coastal', img: 'img/x1.jpg',
       country: 'United Kingdom', city: 'Whitby', area: 'Old Town',
       type: 'House', bedrooms: 2, bathrooms: 1, furnished: 'Furnished',
       currency: 'GBP', arrangement: 'cohosting', commissionPct: 18,
@@ -135,7 +135,7 @@
       ownerName: 'Jean W.', ownerRole: 'Property Owner', ownerSince: '2023'
     },
     {
-      id: 'p11', title: '1-bed apartment, downtown', img: 'img/w9.jpg',
+      id: 'p11', preferredTerm: '24 months', deposit: "One month's rent", bills: 'Excluded', saStatus: 'Holiday-home permit held', wants: 'A co-host for guest communication and changeovers.', title: '1-bed apartment, downtown', img: 'img/w9.jpg',
       country: 'United Arab Emirates', city: 'Dubai', area: 'Downtown',
       type: 'Apartment', bedrooms: 1, bathrooms: 1, furnished: 'Furnished',
       currency: 'AED', arrangement: 'cohosting', commissionPct: 15,
@@ -147,7 +147,7 @@
       ownerName: 'Gulf Key Realty', ownerRole: 'Agent', ownerSince: '2024'
     },
     {
-      id: 'p12', title: 'Duplex, 3 bed, city centre', img: 'img/w1.jpg',
+      id: 'p12', preferredTerm: 'Open', deposit: 'To be agreed', bills: 'Excluded', saStatus: 'Not yet confirmed', wants: 'Proposals on what operators think it is worth.', title: 'Duplex, 3 bed, city centre', img: 'img/w1.jpg',
       country: 'Spain', city: 'Valencia', area: 'Ruzafa',
       type: 'Apartment', bedrooms: 3, bathrooms: 2, furnished: 'Part furnished',
       currency: 'EUR', arrangement: 'guaranteed', rentRequested: null,

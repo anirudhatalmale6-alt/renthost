@@ -1,0 +1,22 @@
+from playwright.sync_api import sync_playwright
+U="file:///var/lib/freelancer/projects/40333782/renthost/index.html"
+with sync_playwright() as p:
+    b=p.chromium.launch(); pg=b.new_context(viewport={"width":1280,"height":900}).new_page()
+    errs=[]; pg.on("pageerror", lambda e: errs.append(str(e)))
+    pg.goto(U, wait_until="load"); pg.wait_for_timeout(900)
+    print("errors:", errs[:3])
+    print("protobar hidden:", pg.eval_on_selector("#protobar","e=>e.hidden"))
+    print("h1:", pg.inner_text("h1")[:90])
+    print("routes:", pg.eval_on_selector_all(".routes .route b","e=>e.map(x=>x.textContent)"))
+    print("howsteps:", pg.eval_on_selector_all(".howsteps li","e=>e.length"))
+    print("gnote on home:", pg.eval_on_selector_all(".gnote","e=>e.length"))
+    pg.goto(U+"#/properties", wait_until="load"); pg.wait_for_timeout(800)
+    print("cards:", pg.eval_on_selector_all("#results .card","e=>e.length"))
+    print("first card:", " | ".join(pg.inner_text("#results .card").split("\n")[:8]))
+    print("sort present:", pg.locator("#fSort").count())
+    pg.select_option("#fSort","low"); pg.wait_for_timeout(500)
+    print("after low sort:", pg.eval_on_selector_all("#results .card .det","e=>e.slice(0,4).map(x=>x.textContent)"))
+    pg.goto(U+"#/property/p1", wait_until="load"); pg.wait_for_timeout(700)
+    print("detail gnote:", pg.eval_on_selector_all(".gnote","e=>e.length"))
+    print("opportunity rows:", pg.inner_text("main").count("Deal type"))
+    b.close()

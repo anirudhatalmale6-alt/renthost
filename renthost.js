@@ -27,8 +27,9 @@
   var ARRANGEMENTS = {
     guaranteed: {
       key: 'guaranteed',
-      label: 'Guaranteed Rent + Full Management',
+      label: 'Guaranteed Rent Arrangement',
       short: 'Guaranteed Rent',
+      alsoKnown: 'Also called rent-to-rent or a company let.',
       blurb: 'The host operates and manages everything, and pays the owner an agreed fixed rent.',
       hostRole: 'Full operation and management',
       managedBy: 'Host',
@@ -52,8 +53,9 @@
     },
     cohosting: {
       key: 'cohosting',
-      label: 'Co-Hosting',
+      label: 'Co-Hosting / Management Agreement',
       short: 'Co-Hosting',
+      alsoKnown: 'Also called a management agreement.',
       blurb: 'The owner keeps managing the property. The co-host provides agreed hosting services for a commission or fee.',
       hostRole: 'Agreed hosting services',
       managedBy: 'Property Owner / Agent',
@@ -185,6 +187,14 @@
   /* Fields that belong to exactly one model. Used by the tests to prove the
      two never bleed into each other, and by validate() to reject a payload
      that carries a field it has no business carrying. */
+  /* Her brief, item 8: wherever "Guaranteed Rent" appears it must be clear
+     that RentHost guarantees nothing — the arrangement is between the owner
+     and the host. This string is the single source for that sentence so it
+     cannot end up worded three different ways, and so a test can assert it
+     appears everywhere the term does. */
+  var GUARANTEE_NOTE = 'Offered by the host or operator and subject to contract, due diligence and ' +
+    'agreed terms. RentHost does not provide or guarantee rental payments.';
+
   var GUARANTEED_ONLY = ['rentOffered', 'termMonths', 'startDate'];
   var COHOSTING_ONLY  = ['commissionPct', 'fixedFee', 'services'];
 
@@ -278,12 +288,19 @@
     var a = ARRANGEMENTS[p.arrangement];
     if (!a) return { label: '', detail: '' };
     if (a.key === 'guaranteed') {
-      return { label: 'GUARANTEED RENT + FULL MANAGEMENT',
+      return { label: 'GUARANTEED RENT ARRANGEMENT',
                detail: has(p.rentRequested) ? money(p.rentRequested, p.currency) + '/month requested' : 'Open to proposals' };
     }
     if (a.key === 'cohosting') {
-      return { label: 'CO-HOSTING',
+      return { label: 'CO-HOSTING / MANAGEMENT',
                detail: has(p.commissionPct) ? p.commissionPct + '% commission offered' : 'Open to proposals' };
+    }
+    /* Show the guide figure when the owner has given one. Without it a sort by
+       rent drops this card between two priced ones and the reader cannot see
+       why it landed there. */
+    if (has(p.rentRequested)) {
+      return { label: 'OPEN TO EITHER',
+               detail: 'from ' + money(p.rentRequested, p.currency) + '/month, or a commission' };
     }
     return { label: 'OPEN TO EITHER', detail: 'Guaranteed Rent or Co-Hosting' };
   }
@@ -415,7 +432,7 @@
   var api = {
     ARRANGEMENTS: ARRANGEMENTS, SERVICES: SERVICES, PROPERTY_STATUS: PROPERTY_STATUS,
     DOC_TYPES: DOC_TYPES, DOC_STATUS: DOC_STATUS,
-    GUARANTEED_ONLY: GUARANTEED_ONLY, COHOSTING_ONLY: COHOSTING_ONLY,
+    GUARANTEE_NOTE: GUARANTEE_NOTE, GUARANTEED_ONLY: GUARANTEED_ONLY, COHOSTING_ONLY: COHOSTING_ONLY,
     LISTING_STEPS: LISTING_STEPS, listingSteps: listingSteps, listingTerms: listingTerms,
     listingMissing: listingMissing, draftToProperty: draftToProperty,
     proposalFor: proposalFor, commercialSummary: commercialSummary, cardLine: cardLine,

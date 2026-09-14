@@ -104,12 +104,17 @@ var s5 = sumOf(prop('p5'));   // co-hosting, no commission set
 ok('a co-hosting page with no figure says open to proposals', /Commission: Open to proposals/.test(s5), s5);
 
 eq('a guaranteed card', RH.cardLine(prop('p1')),
-   { label: 'GUARANTEED RENT + FULL MANAGEMENT', detail: 'AED 11,500/month requested' });
+   { label: 'GUARANTEED RENT ARRANGEMENT', detail: 'AED 11,500/month requested' });
 eq('a co-hosting card', RH.cardLine(prop('p2')),
-   { label: 'CO-HOSTING', detail: '15% commission offered' });
+   { label: 'CO-HOSTING / MANAGEMENT', detail: '15% commission offered' });
 eq('a card with no figure', RH.cardLine(prop('p12')),
-   { label: 'GUARANTEED RENT + FULL MANAGEMENT', detail: 'Open to proposals' });
-eq('an open-to-either card names both', RH.cardLine(prop('p3')),
+   { label: 'GUARANTEED RENT ARRANGEMENT', detail: 'Open to proposals' });
+/* p3 carries a guide rent, so the card shows it — otherwise sorting by rent
+   places it between two priced cards for no visible reason. */
+eq('an open-to-either card with a guide shows it', RH.cardLine(prop('p3')),
+   { label: 'OPEN TO EITHER', detail: 'from €1,400/month, or a commission' });
+eq('an open-to-either card with no guide still names both',
+   RH.cardLine({ arrangement: 'either' }),
    { label: 'OPEN TO EITHER', detail: 'Guaranteed Rent or Co-Hosting' });
 
 /* ===================================================================
@@ -281,7 +286,7 @@ ok('no arrangement means not ready',
 var made = RH.draftToProperty(baseDraft, 'new1', NOW);
 ok('a new listing renders through the same card code', !!RH.cardLine(made).label);
 eq('and says what it should', RH.cardLine(made),
-   { label: 'GUARANTEED RENT + FULL MANAGEMENT', detail: '£1,400/month requested' });
+   { label: 'GUARANTEED RENT ARRANGEMENT', detail: '£1,400/month requested' });
 ok('it is findable by the same search', RH.search([made], { city: 'Leeds' }).length === 1);
 ok('an owner listing is marked owner listed', made.listedBy === 'owner');
 eq('an agent listing is marked agent listed',
@@ -308,6 +313,19 @@ ok('open to either may carry both figures',
 /* and the page rendering of that switched listing must agree */
 ok('a switched listing never shows a rent on its page',
   !/Guaranteed Rent Requested/.test(sumOf(switched)), sumOf(switched));
+
+/* Her item 8: the clarifier must exist once, centrally, so every surface can
+   use the same sentence and a test can insist on it. */
+ok('there is a single guarantee clarifier', typeof RH.GUARANTEE_NOTE === 'string' && RH.GUARANTEE_NOTE.length > 60);
+ok('it says RentHost does not guarantee payment',
+  /RentHost does not provide or guarantee rental payments/.test(RH.GUARANTEE_NOTE), RH.GUARANTEE_NOTE);
+ok('it says the arrangement is the host\'s, subject to contract',
+  /subject to contract/.test(RH.GUARANTEE_NOTE));
+ok('guaranteed rent uses her exact label', RH.ARRANGEMENTS.guaranteed.label === 'Guaranteed Rent Arrangement');
+ok('co-hosting names the management agreement too',
+  /Management Agreement/.test(RH.ARRANGEMENTS.cohosting.label));
+ok('rent-to-rent is named as the same thing',
+  /rent-to-rent/i.test(RH.ARRANGEMENTS.guaranteed.alsoKnown), RH.ARRANGEMENTS.guaranteed.alsoKnown);
 
 console.log('checks: ' + checks);
 console.log('PROBLEMS: ' + (fails.length ? '\n  - ' + fails.join('\n  - ') : 'none'));

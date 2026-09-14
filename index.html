@@ -312,6 +312,54 @@ section{padding:52px 0}
 .done-big .tick{width:62px;height:62px;border-radius:99px;background:var(--fresh-soft);color:var(--fresh);
   display:grid;place-items:center;margin:0 auto 18px;font-size:29px}
 
+
+/* ---------- the two routes in the hero ---------- */
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px;max-width:620px}
+@media(max-width:620px){.routes{grid-template-columns:1fr}}
+.routes .route{display:block;background:var(--white);border:1.5px solid var(--grey);border-radius:var(--r);
+  padding:22px;transition:border-color .16s,transform .16s,box-shadow .16s}
+.routes .route:hover{border-color:var(--fresh);transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.routes .route b{display:block;font-size:19px;letter-spacing:-.02em;margin-bottom:7px}
+.routes .route span{display:block;font-size:14px;color:var(--ink-2);line-height:1.55}
+.routes .route i{display:block;font-style:normal;margin-top:14px;font-size:13.5px;font-weight:600;color:var(--fresh)}
+
+/* ---------- how it works / why renthost ---------- */
+.howgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px)}
+@media(max-width:760px){.howgrid{grid-template-columns:1fr;gap:34px}}
+.howcol .caps{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--fresh);margin-bottom:18px}
+.howsteps{list-style:none;margin:0;padding:0;counter-reset:hs}
+.howsteps li{counter-increment:hs;position:relative;padding-left:44px;margin-bottom:22px}
+.howsteps li::before{content:counter(hs);position:absolute;left:0;top:-2px;width:30px;height:30px;
+  border-radius:99px;background:var(--forest);color:#fff;display:grid;place-items:center;
+  font-size:13px;font-weight:700}
+.howsteps b{display:block;font-size:16px;margin-bottom:4px}
+.howsteps span{font-size:14.5px;color:var(--ink-2);line-height:1.6}
+.ticks{list-style:none;margin:0;padding:0}
+.ticks li{position:relative;padding-left:26px;margin-bottom:12px;font-size:15px;color:var(--ink-2)}
+.ticks li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:2px;background:var(--fresh)}
+.sec-alt{background:var(--white);border-block:1px solid var(--grey)}
+.trustrow{margin-top:clamp(32px,4vw,52px);padding-top:26px;border-top:1px solid var(--grey);max-width:74ch}
+.trustrow .caps{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--forest);margin-bottom:10px}
+.trustrow p{font-size:14.5px;color:var(--ink-2);line-height:1.7}
+.finalcta{background:var(--forest);color:#fff;text-align:center}
+.finalcta h2{color:#fff}
+.finalcta .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.finalcta .btn-o{background:transparent;border-color:#FFFFFF5C;color:#fff}
+.finalcta .btn-o:hover{background:#fff;color:var(--forest)}
+
+/* ---------- the guarantee clarifier, wherever the term appears ---------- */
+.gnote{margin-top:12px;font-size:12.5px;line-height:1.6;color:var(--ink-2);
+  border-left:2px solid var(--fresh);padding-left:12px}
+
+/* ---------- richer cards ---------- */
+.card .meta2{font-size:12.5px;color:var(--ink-3);margin-top:5px}
+.card .viewop{margin-top:13px;padding-top:12px;border-top:1px solid var(--grey);
+  font-size:13.5px;font-weight:600;color:var(--forest);display:flex;justify-content:space-between}
+.card:hover .viewop{color:var(--fresh)}
+.tag.new{background:var(--fresh);color:#fff}
+
 /* ---------- hosts ---------- */
 .hostcard{background:var(--white);border:1px solid var(--grey);border-radius:var(--r);padding:19px;
   box-shadow:var(--shadow)}
@@ -363,10 +411,10 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
 </head>
 <body>
 
-<div class="protobar">
+<div class="protobar" id="protobar" hidden>
   <div class="wrap">
     <b>PROTOTYPE</b>
-    <span>Seeded content &middot; nothing saves</span>
+    <span>Development preview &middot; nothing saves</span>
     <span class="sp"></span>
     <label for="asWho">Viewing as</label>
     <select id="asWho">
@@ -387,7 +435,7 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       <a href="#/list" data-r="list">List a Property</a>
       <a href="#/how" data-r="how">How It Works</a>
       <a href="#/pricing" data-r="pricing">Pricing</a>
-      <a href="#/deal" data-r="deal" id="navDeal" hidden>Deal Area</a>
+      <a href="#/deal" data-r="deal" id="navDeal" hidden>Deal Room</a>
     </nav>
     <div class="sp"></div>
     <a href="#/signin" class="btn btn-o btn-sm" id="signInBtn">Sign In</a>
@@ -410,12 +458,16 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
 <footer>
   <div class="wrap fg">
     <div>
-      <div class="logo" style="margin-bottom:10px"><b>rent</b><i>host</i></div>
-      <p><b>Prototype.</b> Seeded content, no accounts and no real payments. Photographs are placeholders, credited below.
-      RentHost connects property owners and professional hosts &mdash; it is not a guest booking site, and it
-      does not guarantee rent, host performance or occupancy. &ldquo;Guaranteed Rent&rdquo; describes the
-      arrangement between the owner and the host.</p>
-      <p style="margin-top:14px;font-size:12px;line-height:1.7;color:var(--ink-3)"><b>Photographs</b> are placeholders from Wikimedia Commons, reused here under their licences and credited as required: <a href="https://commons.wikimedia.org/wiki/File%3AModern_living_room_with_stylish_furniture_and_a_view_of_the_outdoors_in_a_cozy_apartment_setting.jpg" rel="nofollow">Modern living room with stylish furniture and a view</a> &mdash; Shixart1985, CC BY 2.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AModern_rustic_interior_of_a_spacious_bar_featuring_wooden_accents_and_stylish_seating_in_a_lively_social_setting.jpg" rel="nofollow">Modern rustic interior of a spacious bar featuring w</a> &mdash; Shixart1985, CC BY 2.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AHester_Diamond_Living_Room_2_by_Rachel_Kaminsky.9.2020_03.jpg" rel="nofollow">Hester Diamond Living Room 2 by Rachel Kaminsky.9.20</a> &mdash; Rachel Kaminsky, CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3ABerlin%2C_Mitte%2C_Krausenstrasse_35-36%2C_Adina_Apartment_Hotel_03.jpg" rel="nofollow">Berlin, Mitte, Krausenstrasse 35-36, Adina Apartment</a> &mdash; Jörg Zägel, CC BY-SA 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AUkraine%2C_Odeska%2C_Odesa_-_Ark_Palace_apartment_complex_WMID6064908.jpg" rel="nofollow">Ukraine, Odeska, Odesa - Ark Palace apartment comple</a> &mdash; hyacint, CC BY-SA 3.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3ALobby_lounge_of_Amantaka_Suite_Amantaka_luxury_Resort_%26_Hotel_Luang_Prabang_Laos.jpg" rel="nofollow">Lobby lounge of Amantaka Suite Amantaka luxury Resor</a> &mdash; Basile Morin, CC BY-SA 4.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3AModern_bedroom_design_in_a_stylish_hotel_room_featuring_geometric_patterns_and_soft_linens.jpg" rel="nofollow">Modern bedroom design in a stylish hotel room featur</a> &mdash; Shixart1985, CC BY 2.0 &middot; <a href="https://commons.wikimedia.org/wiki/File%3ALiving_room_Germany_2006.jpg" rel="nofollow">Living room Germany 2006</a> &mdash; Reiner Kraft from Gilroy, USA, CC BY 2.0. Replace them with real property photography before launch.</p>
+      <div class="logo" style="margin-bottom:12px"><b>rent</b><i>host</i></div>
+      <p><b>RentHost is a marketplace.</b> We connect property owners and agents with professional
+      hosts and operators. We are not the accommodation provider, we are not a guest booking site, and
+      we do not provide or guarantee rental payments &mdash; a guaranteed rent arrangement is offered by
+      the host and agreed directly between the two parties, subject to contract.</p>
+      <p style="margin-top:12px">Owners and hosts remain responsible for their own due diligence,
+      references, insurance, permissions and the agreement they sign. Listings and profiles are
+      supplied by users.</p>
+      <p style="margin-top:12px" class="small">Property photographs shown during development are
+      placeholders from Wikimedia Commons, used under their licences.</p>
     </div>
   </div>
 </footer>
@@ -462,21 +514,44 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
     if (!s || s.key==='available') return '';
     return '<span class="tag st-'+s.tone+'">'+esc(s.label)+'</span>';
   }
+  function daysSince(iso){
+    return Math.max(0, Math.round((NOW - new Date(iso)) / 86400000));
+  }
+  function listedLabel(p){
+    var d = daysSince(p.listedAt);
+    if (d <= 0) return 'Listed today';
+    if (d === 1) return 'Listed yesterday';
+    if (d <= 7) return 'Listed ' + d + ' days ago';
+    return 'Listed ' + new Date(p.listedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  }
+
   function propCard(p){
     var line = RH.cardLine(p);
     var ea = RH.earlyAccess(p, NOW, EA_HOURS);
+    var isNew = daysSince(p.listedAt) <= 3;
+    /* The field set from her brief, in one consistent order so the grid reads
+       as a column rather than as twelve different cards. */
+    var facts = [
+      esc(p.type),
+      p.bedrooms + ' bed',
+      p.bathrooms + ' bath',
+      esc(p.furnished)
+    ].join(' &middot; ');
     return '<article class="card" data-open="'+p.id+'">'+
       '<div class="ph"><img src="'+p.img+'" alt="'+esc(p.title)+'" loading="lazy">'+
-        '<div class="tags">'+(ea.active?'<span class="tag early">EARLY ACCESS</span>':'')+statusTag(p)+
+        '<div class="tags">'+(ea.active?'<span class="tag early">EARLY ACCESS</span>':'')+
+          (isNew?'<span class="tag new">NEW</span>':'')+statusTag(p)+
           '<span class="tag">'+(p.listedBy==='agent'?'Agent listed':'Owner listed')+'</span></div>'+
-        '<button class="savebtn'+(saved[p.id]?' on':'')+'" data-save="'+p.id+'" aria-label="Save">'+
-          '<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4.2L6 21z"/></svg></button>'+
+        '<button class="savebtn'+(saved[p.id]?' on':'')+'" data-save="'+p.id+'" aria-label="Save property">'+
+          '<svg viewBox="0 0 24 24"><path d="M12 20.5 4.5 13a4.6 4.6 0 0 1 6.5-6.5l1 1 1-1A4.6 4.6 0 0 1 19.5 13z"/></svg></button>'+
       '</div>'+
       '<div class="bd">'+
         '<div class="loc">'+esc(RH.publicLocation(p))+'</div>'+
         '<div class="ttl">'+esc(p.title)+'</div>'+
-        '<div class="meta">'+esc(p.type)+' &middot; '+p.bedrooms+' bed &middot; '+esc(p.furnished)+'</div>'+
+        '<div class="meta">'+facts+'</div>'+
+        '<div class="meta2">Available '+esc(p.availableFrom)+' &middot; '+esc(listedLabel(p))+'</div>'+
         '<div class="comm"><div class="lab">'+esc(line.label)+'</div><div class="det">'+esc(line.detail)+'</div></div>'+
+        '<div class="viewop">View opportunity <span>&rarr;</span></div>'+
       '</div></article>';
   }
 
@@ -487,12 +562,20 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
     return '<section class="hero"><div class="wrap herogrid">'+
       '<div>'+
         '<div class="eyebrow">RentHost</div>'+
-        '<h1>Where property owners meet <em>professional hosts</em>.</h1>'+
-        '<p class="sub">You have a property. Professional hosts want to run it &mdash; either paying you a '+
-        'guaranteed rent every month, or managing the guests for a commission. List it free and see what '+
-        'they offer.</p>'+
-        '<div class="cta"><a href="#/list" class="btn btn-g btn-lg">List your property &mdash; free</a>'+
-        '<a href="#/properties" class="btn btn-o btn-lg">Browse properties</a></div>'+
+        '<h1>Find professional hosts for your property &mdash; or <em>properties to operate</em>.</h1>'+
+        '<p class="sub">RentHost connects property owners with professional short-let, serviced '+
+        'accommodation and property-management hosts. It is not a guest booking site &mdash; nobody books '+
+        'a holiday here.</p>'+
+        '<div class="routes">'+
+          '<a href="#/list" class="route">'+
+            '<b>I own a property</b>'+
+            '<span>List it free and receive proposals from professional operators.</span>'+
+            '<i>List your property &mdash; free &rarr;</i></a>'+
+          '<a href="#/properties" class="route">'+
+            '<b>I&rsquo;m a host</b>'+
+            '<span>Find properties that fit how you operate, and submit a proposal.</span>'+
+            '<i>Find opportunities &rarr;</i></a>'+
+        '</div>'+
       '</div>'+
       '<div class="heroart">'+
         '<div class="big"><img src="img/w1.jpg" alt="A property listed on RentHost"></div>'+
@@ -507,15 +590,34 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
          the site keys off this distinction, so the home page has to teach it
          before anything else. */
       '<section style="background:var(--white);border-block:1px solid var(--grey)"><div class="wrap">'+
+      '<div class="sechead"><h2>How RentHost works</h2></div>'+
+      '<div class="howgrid">'+
+        '<div class="howcol"><span class="caps">For owners</span>'+
+          '<ol class="howsteps">'+
+            '<li><b>List your property</b><span>Add your property and explain what type of arrangement you are looking for.</span></li>'+
+            '<li><b>Connect with professional hosts</b><span>Receive interest and proposals from suitable hosts and operators.</span></li>'+
+            '<li><b>Choose who you want to work with</b><span>Review profiles, discuss terms and progress the opportunity through RentHost.</span></li>'+
+          '</ol></div>'+
+        '<div class="howcol"><span class="caps">For hosts</span>'+
+          '<ol class="howsteps">'+
+            '<li><b>Create your professional profile</b><span>Tell owners about your business, experience and the properties you are looking for.</span></li>'+
+            '<li><b>Find opportunities</b><span>Search properties that fit your operating model.</span></li>'+
+            '<li><b>Submit interest or a proposal</b><span>Connect directly with owners and progress suitable opportunities.</span></li>'+
+          '</ol></div>'+
+      '</div>'+
+      '</div></section>'+
+
+      '<section><div class="wrap">'+
       '<div class="sechead"><h2>Two ways to work with a host</h2>'+
       '<p>Pick one when you list, or say you are open to either and let hosts propose.</p></div>'+
       '<div class="arrs">'+
         '<div class="arrcard"><div class="k">ARRANGEMENT ONE</div>'+
-          '<h3>Guaranteed Rent + Full Management</h3>'+
+          '<h3>Guaranteed Rent Arrangement</h3>'+
           '<p>The host manages and operates the property and pays you an agreed guaranteed, fixed rent.</p>'+
-          '<div class="no">You receive the same amount every month, booked or empty.</div></div>'+
+          '<div class="no">You receive the same amount every month, booked or empty.</div>'+
+          '<div class="gnote">'+esc(RH.GUARANTEE_NOTE)+'</div></div>'+
         '<div class="arrcard"><div class="k">ARRANGEMENT TWO</div>'+
-          '<h3>Co-Hosting</h3>'+
+          '<h3>Co-Hosting / Management Agreement</h3>'+
           '<p>You (or your agent) continue to manage and look after the property, while the co-host '+
           'provides agreed hosting services for a commission or fee.</p>'+
           '<div class="no">There is no guaranteed rent under co-hosting.</div></div>'+
@@ -535,10 +637,39 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
         '</div>'+
       '</div></section>'+
 
+      '<section class="sec-alt"><div class="wrap">'+
+      '<div class="sechead"><h2>Why RentHost</h2></div>'+
+      '<div class="howgrid">'+
+        '<div class="howcol"><span class="caps">For owners</span><ul class="ticks">'+
+          '<li>Find professional operators, not tenants</li>'+
+          '<li>Compare host profiles side by side</li>'+
+          '<li>Discuss different deal structures</li>'+
+          '<li>Keep every opportunity in one place</li></ul></div>'+
+        '<div class="howcol"><span class="caps">For hosts</span><ul class="ticks">'+
+          '<li>Find properties that suit how you operate</li>'+
+          '<li>Build a professional profile owners can judge</li>'+
+          '<li>Connect directly with owners and agents</li>'+
+          '<li>Manage your opportunities in one place</li></ul></div>'+
+      '</div>'+
+      '<div class="trustrow">'+
+        '<span class="caps">Trust and verification</span>'+
+        '<p>Verification is being built in stages &mdash; identity, company, authority to let, insurance '+
+        'and references. A badge will only ever appear once that check has genuinely been completed. '+
+        'Until then, no badge is shown, because a decorative one is worse than none.</p>'+
+      '</div>'+
+      '</div></section>'+
+
       '<section style="padding-top:0"><div class="wrap">'+
       '<div class="sechead"><h2>Latest opportunities</h2></div>'+
       '<div class="grid" id="homeGrid">'+P.slice(0,6).map(propCard).join('')+'</div>'+
       '<div style="margin-top:24px"><a href="#/properties" class="btn btn-o">See all '+P.length+' properties</a></div>'+
+      '</div></section>'+
+
+      '<section class="finalcta"><div class="wrap">'+
+        '<h2>Ready to start?</h2>'+
+        '<div class="cta" style="margin-top:26px">'+
+          '<a href="#/list" class="btn btn-g btn-lg">List your property</a>'+
+          '<a href="#/join" class="btn btn-o btn-lg">Create host profile</a></div>'+
       '</div></section>';
   };
 
@@ -772,19 +903,47 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
             '<option value="cohosting"'+(filters.arrangement==='cohosting'?' selected':'')+'>Co-Hosting</option>'+
           '</select></div>'+
           '<div class="f"><label for="fBeds">Bedrooms (min)</label><input id="fBeds" type="number" min="0" value="'+(filters.bedroomsMin||'')+'"></div>'+
+          '<div class="f"><label for="fFurn">Furnishing</label><select id="fFurn">'+
+            '<option value="">Any</option>'+opts(vals('furnished'),filters.furnished).replace('<option value="">Any</option>','')+
+          '</select></div>'+
+          '<div class="f"><label for="fBudget">Max monthly rent</label><input id="fBudget" type="number" min="0" placeholder="Any" value="'+(filters.budgetMax||'')+'"></div>'+
           '<div class="f"><label for="fListed">Listed by</label><select id="fListed">'+
             '<option value="">Anyone</option>'+
             '<option value="owner"'+(filters.listedBy==='owner'?' selected':'')+'>Property owner</option>'+
             '<option value="agent"'+(filters.listedBy==='agent'?' selected':'')+'>Agent</option></select></div>'+
         '</div>'+
         '<div class="fbar"><span class="count" id="count"></span>'+
-          '<button class="btn btn-o btn-sm" id="clearF">Clear filters</button></div>'+
+          '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">'+
+            '<label for="fSort" style="font-size:12px;color:var(--ink-2);font-weight:600">Sort</label>'+
+            '<select id="fSort" style="padding:9px 11px;border:1px solid var(--grey);border-radius:var(--rs);font-size:14px">'+
+              '<option value="new">Newest</option>'+
+              '<option value="low">Lowest rent</option>'+
+              '<option value="high">Highest rent</option>'+
+            '</select>'+
+            '<button class="btn btn-o btn-sm" id="clearF">Clear filters</button></div></div>'+
       '</div>'+
       '<div id="results"></div></div></section>';
   };
 
+  var sortBy = 'new';
+  function rentOf(p){
+    /* Only a guaranteed-rent listing has a monthly figure. Co-hosting ones
+       have none, so they sort to the end rather than pretending to be free. */
+    return (p.arrangement !== 'cohosting' && p.rentRequested) ? Number(p.rentRequested) : null;
+  }
   function runSearch(){
-    var r = RH.search(P, filters);
+    var r = RH.search(P, filters).slice();
+    if (sortBy === 'new'){
+      r.sort(function(a,b){ return new Date(b.listedAt) - new Date(a.listedAt); });
+    } else {
+      r.sort(function(a,b){
+        var x = rentOf(a), y = rentOf(b);
+        if (x === null && y === null) return 0;
+        if (x === null) return 1;      // no figure always last, either way
+        if (y === null) return -1;
+        return sortBy === 'low' ? x - y : y - x;
+      });
+    }
     var el = $('results'); if (!el) return;
     el.innerHTML = r.length ? '<div class="grid">'+r.map(propCard).join('')+'</div>'
       : '<div class="empty"><h3>No properties match</h3><p class="mut" style="margin-top:8px">'+
@@ -825,6 +984,16 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
             '<p style="margin-top:16px;max-width:62ch;line-height:1.65">'+esc(p.description)+'</p>'+
             '<div class="feats">'+p.features.map(function(f){ return '<span class="feat">'+esc(f)+'</span>'; }).join('')+'</div>'+
           '</div>'+
+          '<div class="panel" style="margin-top:22px"><h3 style="margin-bottom:12px">Opportunity details</h3>'+
+            '<table class="rows">'+
+            '<tr><td>Deal type</td><td>'+esc(RH.ARRANGEMENTS[p.arrangement].label)+'</td></tr>'+
+            '<tr><td>Preferred agreement length</td><td>'+esc(p.preferredTerm||'Open to discussion')+'</td></tr>'+
+            '<tr><td>Deposit / security</td><td>'+esc(p.deposit||'To be agreed between the parties')+'</td></tr>'+
+            '<tr><td>Bills</td><td>'+esc(p.bills||'Not stated')+'</td></tr>'+
+            '<tr><td>Short-let / SA status</td><td>'+esc(p.saStatus||'Not confirmed by the owner')+'</td></tr>'+
+            '<tr><td>What the owner is looking for</td><td>'+esc(p.wants||'A professional operator with relevant experience.')+'</td></tr>'+
+            '</table></div>'+
+
           '<div class="panel" style="margin-top:22px"><h3 style="margin-bottom:12px">Listing</h3>'+
             '<table class="rows">'+
             '<tr><td>Available from</td><td>'+esc(p.availableFrom)+'</td></tr>'+
@@ -842,14 +1011,20 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
           eaBox+
           '<div class="arrbox"><div class="k">ARRANGEMENT</div>'+
             '<div class="v">'+esc(RH.ARRANGEMENTS[p.arrangement].label)+'</div>'+
-            '<div class="b">'+esc(RH.ARRANGEMENTS[p.arrangement].blurb)+'</div></div>'+
+            '<div class="b">'+esc(RH.ARRANGEMENTS[p.arrangement].blurb)+'</div>'+
+            (RH.ARRANGEMENTS[p.arrangement].alsoKnown
+              ? '<div class="b" style="opacity:.75;margin-top:6px">'+esc(RH.ARRANGEMENTS[p.arrangement].alsoKnown)+'</div>' : '')+
+            /* her item 8: next to the term, not only in the footer */
+            ((p.arrangement==='guaranteed'||p.arrangement==='either')
+              ? '<div class="gnote" style="border-left-color:var(--forest)">'+esc(RH.GUARANTEE_NOTE)+'</div>' : '')+
+          '</div>'+
           '<div class="panel">'+
             '<table class="rows" id="commRows">'+rows.map(function(r){
               return '<tr><td>'+esc(r.label)+'</td><td>'+esc(r.value)+'</td></tr>'; }).join('')+'</table>'+
             '<div style="display:flex;gap:10px;margin-top:18px">'+
               (open
                 ? '<button class="btn btn-g btn-full" id="applyBtn"'+(gate.allowed?'':' disabled')+'>'+
-                  (applied[p.id] ? 'Application sent' : 'Apply for this property')+'</button>'
+                  (applied[p.id] ? 'Application sent' : 'Submit proposal')+'</button>'
                 : '<button class="btn btn-o btn-full" disabled>'+esc(st?st.label:'Closed')+'</button>')+
               '<button class="btn btn-o" id="saveBtn2" data-save="'+p.id+'">'+(saved[p.id]?'Saved':'Save')+'</button>'+
             '</div>'+
@@ -883,7 +1058,7 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
        users, not the public navigation. */
     if (!me.signedIn){
       return '<section><div class="wrap wiz" style="text-align:center;padding:40px 0">'+
-        '<div class="wizq">The deal area is private</div>'+
+        '<div class="wizq">The Deal Room is private</div>'+
         '<p class="wizs">Conversations, proposals and documents are only visible to the two parties in '+
         'a deal. Sign in to see yours.</p>'+
         '<a href="#/join" class="btn btn-g btn-lg">Join RentHost</a>'+
@@ -895,7 +1070,7 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
     var h = H.filter(function(x){ return x.id===d.host; })[0];
     var pr = RH.docProgress(d.docs);
     return '<section><div class="wrap">'+
-      '<div class="sechead"><h2>Deal area</h2><p>Once both sides want to progress, the conversation, the '+
+      '<div class="sechead"><h2>Deal Room</h2><p>Once both sides want to progress, the conversation, the '+
       'proposal and the documents live in one private place. Nothing here is public.</p></div>'+
       '<div class="detail">'+
         '<div><div class="panel"><h3 style="margin-bottom:14px">Conversation</h3>'+
@@ -1217,8 +1392,9 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
       return;
     }
     if (!id) return;
+    if (id === 'fSort'){ sortBy = e.target.value; runSearch(); return; }
     var map = { fCountry:'country', fCity:'city', fType:'type', fArr:'arrangement',
-                fBeds:'bedroomsMin', fListed:'listedBy' };
+                fBeds:'bedroomsMin', fListed:'listedBy', fFurn:'furnished', fBudget:'budgetMax' };
     if (map[id]){
       var v = e.target.value;
       if (v==='' ) delete filters[map[id]]; else filters[map[id]] = v;
@@ -1246,6 +1422,12 @@ footer p{font-size:13.5px;color:var(--ink-2);max-width:58ch;line-height:1.6}
     renderModal();
   }
   window.addEventListener('hashchange', render);
+  /* Her item 11: development controls must not appear in the normal public
+     interface. The bar is hidden unless the URL carries ?dev=1, so it is there
+     when we need to demonstrate Free vs Pro and invisible to everybody else. */
+  if (/[?&]dev=1/.test(location.search)) {
+    var pb = $('protobar'); if (pb) pb.hidden = false;
+  }
   applyIdentity();
   render();
 })();
